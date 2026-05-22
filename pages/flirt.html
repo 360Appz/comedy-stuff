@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flirt Lab 💘 — Comedy Playbook</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    .msg-card {
+      background: var(--surface);
+      border-radius: var(--r-xl);
+      border: 2px solid var(--border);
+      box-shadow: var(--shadow-md);
+      padding: 28px;
+      height: 320px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .msg-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-xl);
+    }
+    .msg-text {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 800;
+      line-height: 1.3;
+      letter-spacing: -0.5px;
+      flex: 1;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .msg-text::-webkit-scrollbar { display: none; }
+    .msg-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1.5px solid var(--border);
+      flex-shrink: 0;
+    }
+    .strategy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--r-pill);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .copy-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition-fast);
+      flex-shrink: 0;
+    }
+    .copy-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo"><span class="nav-logo-dot"></span>COMEDY PLAYBOOK</a>
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="daily.html" class="nav-link">Daily Drop</a>
+      <a href="playbook.html" class="nav-link">Playbook</a>
+      <a href="quiz.html" class="nav-link">Rapid Fire</a>
+      <a href="flirt.html" class="nav-link active">Flirt Lab</a>
+      <a href="comebacks.html" class="nav-link">Comebacks</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-sound-btn" id="soundToggle" aria-label="Toggle sound">🔊</button>
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="../index.html" class="mobile-nav-link">🏠 Home</a>
+    <a href="daily.html" class="mobile-nav-link">☀️ Daily Drop</a>
+    <a href="playbook.html" class="mobile-nav-link">📖 Playbook</a>
+    <a href="quiz.html" class="mobile-nav-link">⚡ Rapid Fire</a>
+    <a href="flirt.html" class="mobile-nav-link active">💘 Flirt Lab</a>
+    <a href="comebacks.html" class="mobile-nav-link">⚔️ Comebacks</a>
+  </div>
+
+  <main class="main-content page-wrap page-enter">
+    <section class="section">
+      <div class="mb-32">
+        <div class="subheading mb-8">Words that hit different</div>
+        <h1 class="display-lg">Flirt Lab 💘</h1>
+        <p class="body-lg mt-16" style="color:var(--text2);max-width:640px">
+          67 flirty texts · 80 messages · 30 luxury good morning notes · lunch wishes · dinner wishes.
+          Tap any card to copy. Shuffle for something new.
+        </p>
+      </div>
+
+      <!-- Category tabs -->
+      <div class="tab-row mb-32" id="flirtTabs">
+        <button class="tab active" onclick="showSection('texts',this)">💬 Flirty Texts</button>
+        <button class="tab" onclick="showSection('sweet',this)">🍭 Sweet</button>
+        <button class="tab" onclick="showSection('romantic',this)">🌹 Romantic</button>
+        <button class="tab" onclick="showSection('spicy',this)">🌶️ Spicy</button>
+        <button class="tab" onclick="showSection('witty',this)">🧠 Witty</button>
+        <button class="tab" onclick="showSection('morning',this)">☀️ Good Morning</button>
+        <button class="tab" onclick="showSection('lunch',this)">🍱 Lunch</button>
+        <button class="tab" onclick="showSection('dinner',this)">🍽️ Dinner</button>
+      </div>
+
+      <!-- Section: Flirty Texts (67 examples) -->
+      <div id="sec-texts">
+        <div class="section-header mb-8">
+          <div>
+            <h2 class="heading">67 Flirty Text Examples</h2>
+            <p class="body-sm mt-4" style="color:var(--text3)">8 strategies · tap any card to copy</p>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="shuffleSection('texts')">🔀 Shuffle</button>
+        </div>
+
+        <!-- Strategy tabs (sub-navigation) -->
+        <div class="tab-row mb-24" id="stratTabs">
+          <button class="tab active" onclick="showStrat('all',this)">All Strategies</button>
+          <button class="tab" onclick="showStrat(0,this)">1 · Cheeky Question</button>
+          <button class="tab" onclick="showStrat(1,this)">2 · Be Bold</button>
+          <button class="tab" onclick="showStrat(2,this)">3 · Last Time</button>
+          <button class="tab" onclick="showStrat(3,this)">4 · Next Time</button>
+          <button class="tab" onclick="showStrat(4,this)">5 · Emojis</button>
+          <button class="tab" onclick="showStrat(5,this)">6 · Make Plans</button>
+          <button class="tab" onclick="showStrat(6,this)">7 · Naughty</button>
+          <button class="tab" onclick="showStrat(7,this)">8 · Speak Mind</button>
+        </div>
+
+        <div class="carousel-wrap" id="textsCarouselWrap">
+          <div class="carousel-track-outer" style="border-radius:var(--r-xl)">
+            <div class="carousel-track" id="textsTrack"></div>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn carousel-btn-prev" id="textsPrev" onclick="carouselNav('texts',-1)" aria-label="Previous"></button>
+            <span class="carousel-counter" id="textsCounter">1 / 1</span>
+            <button class="carousel-btn carousel-btn-next" id="textsNext" onclick="carouselNav('texts',1)" aria-label="Next"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Sweet Messages -->
+      <div id="sec-sweet" class="hidden">
+        <div class="section-header mb-24">
+          <div><h2 class="heading">Sweet Flirty Messages 🍭</h2></div>
+          <button class="btn btn-outline btn-sm" onclick="shuffleSection('sweet')">🔀 Shuffle</button>
+        </div>
+        <div class="carousel-wrap">
+          <div class="carousel-track-outer" style="border-radius:var(--r-xl)">
+            <div class="carousel-track" id="sweetTrack"></div>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn carousel-btn-prev" id="sweetPrev" onclick="carouselNav('sweet',-1)" aria-label="Previous"></button>
+            <span class="carousel-counter" id="sweetCounter">1 / 1</span>
+            <button class="carousel-btn carousel-btn-next" id="sweetNext" onclick="carouselNav('sweet',1)" aria-label="Next"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Romantic -->
+      <div id="sec-romantic" class="hidden">
+        <div class="section-header mb-24">
+          <div><h2 class="heading">Romantic Messages 🌹</h2></div>
+          <button class="btn btn-outline btn-sm" onclick="shuffleSection('romantic')">🔀 Shuffle</button>
+        </div>
+        <div class="carousel-wrap">
+          <div class="carousel-track-outer" style="border-radius:var(--r-xl)">
+            <div class="carousel-track" id="romanticTrack"></div>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn carousel-btn-prev" onclick="carouselNav('romantic',-1)" aria-label="Previous"></button>
+            <span class="carousel-counter" id="romanticCounter">1 / 1</span>
+            <button class="carousel-btn carousel-btn-next" onclick="carouselNav('romantic',1)" aria-label="Next"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Spicy -->
+      <div id="sec-spicy" class="hidden">
+        <div class="section-header mb-24">
+          <div><h2 class="heading">Spicy Messages 🌶️</h2></div>
+          <button class="btn btn-outline btn-sm" onclick="shuffleSection('spicy')">🔀 Shuffle</button>
+        </div>
+        <div class="carousel-wrap">
+          <div class="carousel-track-outer" style="border-radius:var(--r-xl)">
+            <div class="carousel-track" id="spicyTrack"></div>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn carousel-btn-prev" onclick="carouselNav('spicy',-1)" aria-label="Previous"></button>
+            <span class="carousel-counter" id="spicyCounter">1 / 1</span>
+            <button class="carousel-btn carousel-btn-next" onclick="carouselNav('spicy',1)" aria-label="Next"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Witty -->
+      <div id="sec-witty" class="hidden">
+        <div class="section-header mb-24">
+          <div><h2 class="heading">Witty Messages 🧠</h2></div>
+          <button class="btn btn-outline btn-sm" onclick="shuffleSection('witty')">🔀 Shuffle</button>
+        </div>
+        <div class="carousel-wrap">
+          <div class="carousel-track-outer" style="border-radius:var(--r-xl)">
+            <div class="carousel-track" id="wittyTrack"></div>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn carousel-btn-prev" onclick="carouselNav('witty',-1)" aria-label="Previous"></button>
+            <span class="carousel-counter" id="wittyCounter">1 / 1</span>
+            <button class="carousel-btn carousel-btn-next" onclick="carouselNav('witty',1)" aria-label="Next"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Morning -->
+      <div id="sec-morning" class="hidden">
+        <div class="section-header mb-24">
+          <div>
+            <h2 class="heading">Luxury Good Morning Messages ☀️</h2>
+            <p class="body-sm mt-4" style="color:var(--text3)">30 absurdly formal morning texts + bonus ultra-premium</p>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="shuffleSection('morning')">🔀 Shuffle</button>
+        </div>
+        <div class="carousel-wrap">
+          <div class="carousel-track-outer" style="border-radius:var(--r-xl)">
+            <div class="carousel-track" id="morningTrack"></div>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn carousel-btn-prev" onclick="carouselNav('morning',-1)" aria-label="Previous"></button>
+            <span class="carousel-counter" id="morningCounter">1 / 1</span>
+            <button class="carousel-btn carousel-btn-next" onclick="carouselNav('morning',1)" aria-label="Next"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Lunch -->
+      <div id="sec-lunch" class="hidden">
+        <div class="section-header mb-24">
+          <div>
+            <h2 class="heading">Sophisticated Lunch Wishes 🍱</h2>
+            <p class="body-sm mt-4" style="color:var(--text3)">Classic, warmly elegant, playfully sophisticated & more</p>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="shuffleSection('lunch')">🔀 Shuffle</button>
+        </div>
+        <div class="carousel-wrap">
+          <div class="carousel-track-outer" style="border-radius:var(--r-xl)">
+            <div class="carousel-track" id="lunchTrack"></div>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn carousel-btn-prev" onclick="carouselNav('lunch',-1)" aria-label="Previous"></button>
+            <span class="carousel-counter" id="lunchCounter">1 / 1</span>
+            <button class="carousel-btn carousel-btn-next" onclick="carouselNav('lunch',1)" aria-label="Next"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Dinner -->
+      <div id="sec-dinner" class="hidden">
+        <div class="section-header mb-24">
+          <div>
+            <h2 class="heading">Dinner & Rest Wishes 🍽️</h2>
+            <p class="body-sm mt-4" style="color:var(--text3)">20 refined wishes for dinner and rest</p>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="shuffleSection('dinner')">🔀 Shuffle</button>
+        </div>
+        <div class="carousel-wrap">
+          <div class="carousel-track-outer" style="border-radius:var(--r-xl)">
+            <div class="carousel-track" id="dinnerTrack"></div>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn carousel-btn-prev" onclick="carouselNav('dinner',-1)" aria-label="Previous"></button>
+            <span class="carousel-counter" id="dinnerCounter">1 / 1</span>
+            <button class="carousel-btn carousel-btn-next" onclick="carouselNav('dinner',1)" aria-label="Next"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-text">Comedy Playbook © 2025 · 200+ messages</div>
+    <div class="footer-links">
+      <a href="../index.html" class="footer-link">Home</a>
+      <a href="playbook.html" class="footer-link">Playbook</a>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/engine.js"></script>
+  <script src="../js/sounds.js"></script>
+  <script>
+    // ── Carousel state ────────────────────────────────────
+    const carousels = {};
+
+    document.addEventListener('DOMContentLoaded', () => {
+      ENGINE.applyHourlyTheme();
+      initNav();
+      initSoundToggle();
+      buildAllCarousels();
+      initSwipe();
+    });
+
+    function initNav() {
+      const burger = document.getElementById('burgerBtn');
+      const nav = document.getElementById('mobileNav');
+      burger.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        burger.setAttribute('aria-expanded', open);
+        nav.setAttribute('aria-hidden', !open);
+        SOUNDS.click();
+      });
+    }
+    function initSoundToggle() {
+      const btn = document.getElementById('soundToggle');
+      let on = true;
+      btn.addEventListener('click', () => { on = SOUNDS.toggle(); btn.textContent = on ? '🔊' : '🔇'; });
+    }
+
+    // ── Section visibility ───────────────────────────────
+    const SECTIONS = ['texts','sweet','romantic','spicy','witty','morning','lunch','dinner'];
+    window.showSection = function(id, btn) {
+      SOUNDS.click();
+      SECTIONS.forEach(s => { document.getElementById('sec-'+s).classList.add('hidden'); });
+      document.getElementById('sec-'+id).classList.remove('hidden');
+      document.querySelectorAll('#flirtTabs .tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      // Reset to first slide
+      if (carousels[id]) { carousels[id].idx = 0; updateCarousel(id); }
+    };
+
+    // ── Build all carousels ───────────────────────────────
+    function buildAllCarousels() {
+      buildTextsCarousel('all');
+      buildMessagesCarousel('sweet', FLIRTY_MESSAGES.categories.find(c=>c.id==='sweet').items, '#C8FF00', '🍭 Sweet');
+      buildMessagesCarousel('romantic', FLIRTY_MESSAGES.categories.find(c=>c.id==='romantic').items, '#FF1F6D', '🌹 Romantic');
+      buildMessagesCarousel('spicy', FLIRTY_MESSAGES.categories.find(c=>c.id==='spicy').items, '#FF5C00', '🌶️ Spicy');
+      buildMessagesCarousel('witty', FLIRTY_MESSAGES.categories.find(c=>c.id==='witty').items, '#0055FF', '🧠 Witty');
+      buildMorningCarousel();
+      buildLunchCarousel();
+      buildDinnerCarousel();
+    }
+
+    function msgCard(text, label, color, textColor = '#0A0A0A') {
+      const safe = text.replace(/'/g, "\\'").replace(/\\/g, '\\\\');
+      return `<div class="carousel-slide">
+        <div class="msg-card tilt" onclick="copyMsg('${safe}')">
+          <div class="strategy-badge" style="background:${color}22;color:${color};border:1.5px solid ${color}44;margin-bottom:16px">${label}</div>
+          <div class="msg-text">${text}</div>
+          <div class="msg-footer">
+            <span style="font-size:13px;color:var(--text3);font-weight:600">Tap to copy</span>
+            <button class="copy-btn" onclick="event.stopPropagation();copyMsg('${safe}')">📋</button>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function buildTextsCarousel(stratFilter) {
+      let items = [];
+      if (stratFilter === 'all') {
+        FLIRTY_TEXTS.strategies.forEach(s => {
+          s.items.forEach(item => items.push({ text: item, strategy: s.title, num: s.number }));
+        });
+      } else {
+        const s = FLIRTY_TEXTS.strategies[stratFilter];
+        items = s.items.map(item => ({ text: item, strategy: s.title, num: s.number }));
+      }
+      const colors = ['#C8FF00','#FF1F6D','#0055FF','#FF5C00','#9D00FF','#FFE500'];
+      const track = document.getElementById('textsTrack');
+      track.innerHTML = items.map((item, i) =>
+        msgCard(item.text, `Strategy ${item.num}: ${item.strategy}`, colors[item.num % colors.length])
+      ).join('');
+      carousels['texts'] = { idx: 0, total: items.length };
+      updateCarousel('texts');
+    }
+
+    function buildMessagesCarousel(id, items, color, label) {
+      const track = document.getElementById(id+'Track');
+      track.innerHTML = items.map(text => msgCard(text, label, color)).join('');
+      carousels[id] = { idx: 0, total: items.length };
+      updateCarousel(id);
+    }
+
+    function buildMorningCarousel() {
+      const items = [...GOOD_MORNING.numbered.map(m => ({ text: m.text, label: m.label }))];
+      // Add category items
+      GOOD_MORNING.categories.forEach(cat => {
+        cat.items.forEach(text => items.push({ text, label: cat.label }));
+      });
+      items.push({ text: GOOD_MORNING.bonus, label: 'BONUS ULTRA-PREMIUM' });
+      const track = document.getElementById('morningTrack');
+      track.innerHTML = items.map(item => msgCard(item.text, '☀️ ' + item.label, '#FFE500')).join('');
+      carousels['morning'] = { idx: 0, total: items.length };
+      updateCarousel('morning');
+    }
+
+    function buildLunchCarousel() {
+      const items = [];
+      LUNCH_WISHES.categories.forEach(cat => {
+        cat.items.forEach(text => items.push({ text, label: cat.label }));
+      });
+      const track = document.getElementById('lunchTrack');
+      track.innerHTML = items.map(item => msgCard(item.text, '🍱 ' + item.label, '#FF5C00')).join('');
+      carousels['lunch'] = { idx: 0, total: items.length };
+      updateCarousel('lunch');
+    }
+
+    function buildDinnerCarousel() {
+      const track = document.getElementById('dinnerTrack');
+      track.innerHTML = DINNER_WISHES.items.map((text, i) =>
+        msgCard(text, `🍽️ Dinner Wish ${i+1}`, '#9D00FF')
+      ).join('');
+      carousels['dinner'] = { idx: 0, total: DINNER_WISHES.items.length };
+      updateCarousel('dinner');
+    }
+
+    // ── Carousel navigation ───────────────────────────────
+    window.carouselNav = function(id, dir) {
+      SOUNDS.swipe();
+      const c = carousels[id];
+      if (!c) return;
+      c.idx = Math.max(0, Math.min(c.idx + dir, c.total - 1));
+      updateCarousel(id);
+    };
+
+    function updateCarousel(id) {
+      const c = carousels[id];
+      if (!c) return;
+      const track = document.getElementById(id+'Track');
+      if (track) track.style.transform = `translateX(-${c.idx * 100}%)`;
+      const counter = document.getElementById(id+'Counter');
+      if (counter) counter.textContent = `${c.idx + 1} / ${c.total}`;
+      const prev = document.getElementById(id+'Prev');
+      const next = document.getElementById(id+'Next');
+      if (prev) prev.disabled = c.idx === 0;
+      if (next) next.disabled = c.idx >= c.total - 1;
+    }
+
+    // ── Strategy filter ───────────────────────────────────
+    window.showStrat = function(stratIdx, btn) {
+      SOUNDS.click();
+      document.querySelectorAll('#stratTabs .tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      buildTextsCarousel(stratIdx);
+    };
+
+    // ── Shuffle ───────────────────────────────────────────
+    window.shuffleSection = function(id) {
+      SOUNDS.swipe();
+      const track = document.getElementById(id+'Track');
+      if (!track) return;
+      const slides = Array.from(track.children);
+      const shuffled = ENGINE.shuffleWithSeed(slides, Date.now());
+      track.innerHTML = '';
+      shuffled.forEach(s => track.appendChild(s));
+      carousels[id].idx = 0;
+      updateCarousel(id);
+      showToast('🔀 Shuffled!');
+    };
+
+    // ── Copy ──────────────────────────────────────────────
+    window.copyMsg = function(text) {
+      SOUNDS.copy();
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('📋 Copied!');
+        confettiBurst(window.innerWidth/2, window.innerHeight/2);
+      });
+    };
+
+    // ── Swipe ─────────────────────────────────────────────
+    function initSwipe() {
+      SECTIONS.forEach(id => {
+        const outer = document.querySelector(`#sec-${id} .carousel-track-outer`);
+        if (!outer) return;
+        let sx = 0;
+        outer.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+        outer.addEventListener('touchend', e => {
+          const diff = sx - e.changedTouches[0].clientX;
+          if (Math.abs(diff) > 40) carouselNav(id, diff > 0 ? 1 : -1);
+        });
+      });
+    }
+
+    // ── Tilt ──────────────────────────────────────────────
+    document.addEventListener('mousemove', e => {
+      const card = e.target.closest('.tilt');
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(800px) rotateX(${-y*6}deg) rotateY(${x*6}deg) translateY(-6px)`;
+    });
+    document.addEventListener('mouseleave', e => {
+      if (e.target.closest('.tilt')) e.target.closest('.tilt').style.transform = '';
+    }, true);
+
+    // ── Toast & confetti ──────────────────────────────────
+    window.showToast = function(msg) {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      const t = document.createElement('div');
+      t.className = 'toast'; t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => { t.classList.add('toast-out'); setTimeout(() => t.remove(), 300); }, 2500);
+    };
+
+    window.confettiBurst = function(x, y) {
+      const colors = ['#C8FF00','#FF1F6D','#0055FF','#FF5C00','#9D00FF','#FFE500'];
+      for (let i = 0; i < 16; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.cssText = `left:${x+(Math.random()-0.5)*200}px;top:${y-30}px;background:${colors[Math.floor(Math.random()*colors.length)]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:${Math.random()>0.5?'50%':'2px'};animation-duration:${0.7+Math.random()*0.7}s;`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1400);
+      }
+    };
+  </script>
+</body>
+</html>

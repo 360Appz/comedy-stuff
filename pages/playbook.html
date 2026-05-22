@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comedy Playbook 📖 — All 30 Chapters</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    .playbook-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .playbook-layout { grid-template-columns: 1fr; }
+      .chapter-sidebar { position: static !important; max-height: 280px; overflow-y: auto; }
+    }
+    .chapter-sidebar {
+      position: sticky;
+      top: calc(var(--nav-h) + 16px);
+      max-height: calc(100vh - var(--nav-h) - 32px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .chapter-sidebar::-webkit-scrollbar { width: 4px; }
+    .chapter-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .section-block { margin-bottom: 28px; }
+    .section-block-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text3);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .comparison-row > div {
+      padding: 12px;
+      border-radius: var(--r-md);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .cmp-bad { background: rgba(255,31,109,0.08); border: 1px solid rgba(255,31,109,0.2); }
+    .cmp-good { background: rgba(200,255,0,0.1); border: 1px solid rgba(200,255,0,0.3); }
+    .cmp-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+    .warning-block {
+      background: rgba(255,92,0,0.08);
+      border: 1px solid rgba(255,92,0,0.2);
+      border-radius: var(--r-md);
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #8B3000;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .note-block {
+      background: rgba(0,85,255,0.06);
+      border: 1px solid rgba(0,85,255,0.15);
+      border-radius: var(--r-md);
+      padding: 12px 16px;
+      font-size: 14px;
+      color: var(--text2);
+      margin-top: 8px;
+    }
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th { text-align: left; padding: 10px 14px; background: var(--surface2); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text3); }
+    td { padding: 10px 14px; border-top: 1px solid var(--border); line-height: 1.4; }
+    tr:hover td { background: var(--surface2); }
+    .search-results { background: var(--surface); border-radius: var(--r-lg); border: 2px solid var(--border); padding: 16px; margin-top: 8px; display: none; max-height: 320px; overflow-y: auto; }
+    .search-results.visible { display: block; }
+  </style>
+</head>
+<body>
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo"><span class="nav-logo-dot"></span>COMEDY PLAYBOOK</a>
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="daily.html" class="nav-link">Daily Drop</a>
+      <a href="playbook.html" class="nav-link active">Playbook</a>
+      <a href="quiz.html" class="nav-link">Rapid Fire</a>
+      <a href="flirt.html" class="nav-link">Flirt Lab</a>
+      <a href="comebacks.html" class="nav-link">Comebacks</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-sound-btn" id="soundToggle" aria-label="Toggle sound">🔊</button>
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="../index.html" class="mobile-nav-link">🏠 Home</a>
+    <a href="daily.html" class="mobile-nav-link">☀️ Daily Drop</a>
+    <a href="playbook.html" class="mobile-nav-link active">📖 Playbook</a>
+    <a href="quiz.html" class="mobile-nav-link">⚡ Rapid Fire</a>
+    <a href="flirt.html" class="mobile-nav-link">💘 Flirt Lab</a>
+    <a href="comebacks.html" class="mobile-nav-link">⚔️ Comebacks</a>
+  </div>
+
+  <main class="main-content page-wrap page-enter">
+    <section class="section">
+      <!-- Header -->
+      <div class="mb-32">
+        <div class="subheading mb-8">Word For Word</div>
+        <h1 class="display-lg">Comedy Playbook 📖</h1>
+        <p class="body-lg mt-16" style="color:var(--text2);max-width:600px">
+          All 30 chapters from the Comedy Playbook. Select a chapter from the sidebar, 
+          browse lines, and tap any line to copy it.
+        </p>
+        <!-- Search -->
+        <div class="search-bar mt-24" style="max-width:500px">
+          <span style="font-size:18px">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search lines, chapters, jokes..." aria-label="Search playbook" />
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+
+      <div class="playbook-layout">
+        <!-- Sidebar -->
+        <aside class="chapter-sidebar" aria-label="Chapter list">
+          <div id="chapterList"></div>
+        </aside>
+
+        <!-- Content viewer -->
+        <div class="content-viewer" id="chapterViewer" style="height:calc(100vh - 220px);min-height:500px">
+          <div class="content-viewer-header" id="viewerHeader">
+            <div class="flex items-center gap-16">
+              <div style="font-size:40px" id="viewerIcon">🎭</div>
+              <div>
+                <h2 class="heading" id="viewerTitle">Select a chapter</h2>
+                <div class="subheading mt-8" id="viewerSubtitle">30 chapters available</div>
+              </div>
+            </div>
+          </div>
+          <div class="content-viewer-body" id="viewerBody">
+            <div style="text-align:center;padding:60px 24px;color:var(--text3)">
+              <div style="font-size:72px;margin-bottom:24px">👆</div>
+              <div class="heading" style="color:var(--text2)">Choose a chapter to explore</div>
+              <p style="margin-top:8px">Click any chapter in the sidebar to dive in.</p>
+              <div class="flex gap-12 justify-center flex-wrap mt-24" id="quickChapters"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-text">Comedy Playbook © 2025 · 30 chapters · 500+ lines</div>
+    <div class="footer-links">
+      <a href="../index.html" class="footer-link">Home</a>
+      <a href="quiz.html" class="footer-link">Quiz</a>
+      <a href="flirt.html" class="footer-link">Flirt Lab</a>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/engine.js"></script>
+  <script src="../js/sounds.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      ENGINE.applyHourlyTheme();
+      initNav();
+      initSoundToggle();
+      renderChapterList();
+      renderQuickChapters();
+      initSearch();
+      // Open chapter from hash
+      const hash = location.hash;
+      if (hash === '#asean') openChapter(12);
+      else openChapter(1);
+    });
+
+    function initNav() {
+      const burger = document.getElementById('burgerBtn');
+      const nav = document.getElementById('mobileNav');
+      burger.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        burger.setAttribute('aria-expanded', open);
+        nav.setAttribute('aria-hidden', !open);
+        SOUNDS.click();
+      });
+    }
+    function initSoundToggle() {
+      const btn = document.getElementById('soundToggle');
+      let on = true;
+      btn.addEventListener('click', () => { on = SOUNDS.toggle(); btn.textContent = on ? '🔊' : '🔇'; });
+    }
+
+    function renderChapterList() {
+      const list = document.getElementById('chapterList');
+      list.innerHTML = `<div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);padding:0 4px 12px">All Chapters</div>` +
+        PLAYBOOK_CHAPTERS.map(ch => `
+          <button class="chapter-item" id="ch-btn-${ch.id}" onclick="openChapter(${ch.id})" style="margin-bottom:8px;width:100%">
+            <div class="chapter-num">${String(ch.id).padStart(2,'0')}</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;text-align:left;line-height:1.3">${ch.icon} ${ch.title}</div>
+            </div>
+          </button>
+        `).join('');
+    }
+
+    function renderQuickChapters() {
+      const el = document.getElementById('quickChapters');
+      const featured = [1, 3, 9, 10, 11, 12, 17, 27, 28];
+      el.innerHTML = featured.map(id => {
+        const ch = PLAYBOOK_CHAPTERS.find(c => c.id === id);
+        if (!ch) return '';
+        return `<button class="btn btn-outline btn-sm" onclick="openChapter(${ch.id})">${ch.icon} ${ch.title.split(':')[0]}</button>`;
+      }).join('');
+    }
+
+    function openChapter(id) {
+      SOUNDS.click();
+      const ch = PLAYBOOK_CHAPTERS.find(c => c.id === id);
+      if (!ch) return;
+      // Update sidebar active
+      document.querySelectorAll('.chapter-item').forEach(b => b.classList.remove('active'));
+      const btn = document.getElementById(`ch-btn-${id}`);
+      if (btn) { btn.classList.add('active'); btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+      // Update viewer header
+      document.getElementById('viewerIcon').textContent = ch.icon;
+      document.getElementById('viewerTitle').textContent = ch.title;
+      document.getElementById('viewerSubtitle').textContent = `Chapter ${ch.id} of ${PLAYBOOK_CHAPTERS.length}`;
+      // Update viewer content color
+      const viewer = document.getElementById('chapterViewer');
+      viewer.className = `content-viewer card-${ch.color}`;
+      // Render body
+      document.getElementById('viewerBody').innerHTML = renderChapterBody(ch);
+    }
+
+    function renderChapterBody(ch) {
+      let html = '';
+      if (ch.intro) {
+        html += `<div class="note-block mb-24" style="font-size:15px;line-height:1.6">${ch.intro}</div>`;
+      }
+      (ch.sections || []).forEach(sec => {
+        html += `<div class="section-block">`;
+        if (sec.heading) {
+          html += `<div class="section-block-title">${sec.heading}</div>`;
+        }
+        // Note / text block
+        if (sec.note) html += `<div class="note-block mb-12">${sec.note}</div>`;
+        if (sec.explanation) html += `<p style="font-size:14px;color:var(--text2);margin-bottom:12px;line-height:1.5">${sec.explanation}</p>`;
+        if (sec.closing) html += `<div class="note-block" style="font-size:16px;font-weight:700;color:var(--accent2)">"${sec.closing}"</div>`;
+        // Line list
+        if (sec.lines && sec.lines.length) {
+          html += sec.lines.map(l => lineItem(l)).join('');
+        }
+        // Items list
+        if (sec.items && sec.items.length) {
+          html += sec.items.map(item =>
+            typeof item === 'string'
+              ? `<div class="line-item" onclick="copyLine('${item.replace(/'/g,"\\'")}')">
+                   <div class="line-item-bullet"></div>
+                   <div class="line-item-text">${item}</div>
+                   <span class="line-item-copy">Copy</span>
+                 </div>`
+              : (item.label
+                  ? `<div class="line-item">
+                       <div class="line-item-bullet" style="background:var(--accent5)"></div>
+                       <div><strong style="font-size:14px">${item.label}</strong> ${item.example ? `<br><span style="font-size:14px;color:var(--text2)"><em>"${item.example}"</em></span>` : ''}</div>
+                     </div>`
+                  : `<div class="line-item"><div class="line-item-bullet"></div><div class="line-item-text">${JSON.stringify(item)}</div></div>`)
+          ).join('');
+        }
+        // Table (safe vs risky)
+        if (sec.table) {
+          html += `<div class="table-responsive"><table><thead><tr>`;
+          const keys = Object.keys(sec.table[0]);
+          keys.forEach(k => { html += `<th>${k}</th>`; });
+          html += `</tr></thead><tbody>`;
+          sec.table.forEach(row => {
+            html += `<tr>`;
+            keys.forEach(k => { html += `<td>${row[k] || ''}</td>`; });
+            html += `</tr>`;
+          });
+          html += `</tbody></table></div>`;
+        }
+        // Comparisons (bad/better)
+        if (sec.comparisons) {
+          sec.comparisons.forEach(c => {
+            html += `<div class="comparison-row">
+              <div class="cmp-bad"><div class="cmp-label">❌ Not</div>"${c.bad}"</div>
+              <div class="cmp-good"><div class="cmp-label">✅ Better</div>"${c.better}"</div>
+            </div>`;
+          });
+        }
+        // Examples
+        if (sec.examples) {
+          if (Array.isArray(sec.examples)) {
+            if (typeof sec.examples[0] === 'object' && sec.examples[0].prompt) {
+              sec.examples.forEach(ex => {
+                html += `<div class="line-item" style="flex-direction:column;gap:6px">
+                  <div style="font-size:13px;font-weight:700;color:var(--text3)">${ex.prompt}</div>
+                  <div class="line-item-text" onclick="copyLine('${ex.answer.replace(/'/g,"\\'")}')">
+                    → ${ex.answer}
+                  </div>
+                </div>`;
+              });
+            } else {
+              sec.examples.forEach(e => { html += lineItem(e); });
+            }
+          }
+        }
+        // Warning
+        if (sec.warning) html += `<div class="warning-block">⚠️ ${sec.warning}</div>`;
+        if (sec.doNotRoast) {
+          html += `<div class="warning-block">⚠️ Do not roast someone who is:<ul style="margin-top:8px;padding-left:16px;line-height:2">` +
+            sec.doNotRoast.map(i => `<li>${i}</li>`).join('') + `</ul></div>`;
+        }
+        // Options (food debate)
+        if (sec.options) {
+          html += `<div class="flex flex-wrap gap-8 mt-8">` +
+            sec.options.map(o => `<span class="tag tag-orange">${o}</span>`).join('') +
+          `</div>`;
+          if (sec.rule) html += `<div class="note-block mt-8">${sec.rule}</div>`;
+        }
+        // Answers (wrong answers only)
+        if (sec.prompt) {
+          html += lineItem(sec.prompt, '❓');
+        }
+        if (sec.answers) {
+          sec.answers.forEach(a => html += lineItem(a));
+        }
+        html += `</div>`;
+      });
+      return html;
+    }
+
+    function lineItem(text, bullet = null) {
+      const safe = String(text).replace(/'/g, "\\'").replace(/\\/g, '\\\\');
+      return `<div class="line-item" onclick="copyLine('${safe}')">
+        <div class="line-item-bullet" style="${bullet ? '' : ''}"></div>
+        <div class="line-item-text">${bullet || ''}${text}</div>
+        <span class="line-item-copy">Copy</span>
+      </div>`;
+    }
+
+    window.copyLine = function(text) {
+      SOUNDS.copy();
+      navigator.clipboard.writeText(text).then(() => showToast('📋 Copied: ' + text.substring(0,40) + (text.length > 40 ? '...' : '')));
+    };
+
+    // Search
+    function initSearch() {
+      const input = document.getElementById('searchInput');
+      const results = document.getElementById('searchResults');
+      input.addEventListener('input', () => {
+        const q = input.value.trim();
+        if (q.length < 2) { results.classList.remove('visible'); return; }
+        const found = ENGINE.searchContent(q);
+        if (!found.length) {
+          results.innerHTML = `<p style="color:var(--text3);font-size:14px">No results for "${q}"</p>`;
+        } else {
+          results.innerHTML = found.map(r =>
+            `<div class="line-item" onclick="copyLine('${(r.item.text || r.item.q || '').replace(/'/g,"\\'")}')">
+              <div class="line-item-bullet" style="background:${r.type==='quote'?'var(--accent1)':'var(--accent2)'}"></div>
+              <div>
+                <div style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">${r.type}</div>
+                <div class="line-item-text">${r.item.text || r.item.q}</div>
+              </div>
+              <span class="line-item-copy">Copy</span>
+            </div>`
+          ).join('');
+        }
+        results.classList.add('visible');
+      });
+      document.addEventListener('click', e => {
+        if (!e.target.closest('#searchInput') && !e.target.closest('#searchResults')) {
+          results.classList.remove('visible');
+        }
+      });
+    }
+
+    window.showToast = function(msg) {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      const t = document.createElement('div');
+      t.className = 'toast'; t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => { t.classList.add('toast-out'); setTimeout(() => t.remove(), 300); }, 2500);
+    };
+  </script>
+</body>
+</html>

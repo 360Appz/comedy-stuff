@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rapid Fire Quiz ⚡ — Comedy Playbook</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    .lobby { max-width: 600px; margin: 0 auto; text-align: center; }
+    .game-area { max-width: 700px; margin: 0 auto; }
+    .results { max-width: 600px; margin: 0 auto; text-align: center; }
+    .result-grade {
+      font-family: var(--font-display);
+      font-size: clamp(80px, 15vw, 140px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -4px;
+    }
+    .grade-s { color: var(--accent1); }
+    .grade-a { color: var(--accent3); }
+    .grade-b { color: var(--yellow); }
+    .grade-c { color: var(--accent4); }
+    .grade-f { color: var(--accent2); }
+
+    .answer-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .answer-pill {
+      padding: 6px 14px;
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .answer-pill.correct { background: rgba(200,255,0,0.2); border-color: var(--accent1); color: #4A6000; }
+    .answer-pill.wrong { background: rgba(255,31,109,0.1); border-color: var(--accent2); color: #880033; }
+    .answer-pill:hover:not(.correct):not(.wrong) { background: var(--text); color: var(--bg); }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--r-md);
+      background: var(--surface2);
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .history-icon { font-size: 20px; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo"><span class="nav-logo-dot"></span>COMEDY PLAYBOOK</a>
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="daily.html" class="nav-link">Daily Drop</a>
+      <a href="playbook.html" class="nav-link">Playbook</a>
+      <a href="quiz.html" class="nav-link active">Rapid Fire</a>
+      <a href="flirt.html" class="nav-link">Flirt Lab</a>
+      <a href="comebacks.html" class="nav-link">Comebacks</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-sound-btn" id="soundToggle" aria-label="Toggle sound">🔊</button>
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="../index.html" class="mobile-nav-link">🏠 Home</a>
+    <a href="daily.html" class="mobile-nav-link">☀️ Daily Drop</a>
+    <a href="playbook.html" class="mobile-nav-link">📖 Playbook</a>
+    <a href="quiz.html" class="mobile-nav-link active">⚡ Rapid Fire</a>
+    <a href="flirt.html" class="mobile-nav-link">💘 Flirt Lab</a>
+    <a href="comebacks.html" class="mobile-nav-link">⚔️ Comebacks</a>
+  </div>
+
+  <main class="main-content page-wrap page-enter">
+    <section class="section">
+
+      <!-- LOBBY -->
+      <div class="lobby" id="lobbyScreen">
+        <div class="subheading mb-16">Test Your Comedy Knowledge</div>
+        <h1 class="display-lg mb-24">Rapid Fire ⚡</h1>
+
+        <div class="quiz-card" style="text-align:left;margin-bottom:24px">
+          <div style="font-size:48px;margin-bottom:16px">🎯</div>
+          <h2 class="heading mb-12">How to play</h2>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="flex gap-12 items-center">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--accent1);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0">1</div>
+              <span class="body">Read the question or fill-in-the-blank</span>
+            </div>
+            <div class="flex gap-12 items-center">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--accent2);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0">2</div>
+              <span class="body">Think of your answer</span>
+            </div>
+            <div class="flex gap-12 items-center">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--accent3);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0">3</div>
+              <span class="body">Reveal the answer and mark yourself</span>
+            </div>
+            <div class="flex gap-12 items-center">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--accent4);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0">4</div>
+              <span class="body">Score 100pts per correct card</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-row mb-24">
+          <div class="stat-card"><div class="stat-number" id="lobbyHigh">0</div><div class="stat-label">High Score</div></div>
+          <div class="stat-card"><div class="stat-number" id="lobbyStreak">0</div><div class="stat-label">Day Streak 🔥</div></div>
+          <div class="stat-card"><div class="stat-number" id="lobbyGames">0</div><div class="stat-label">Games</div></div>
+        </div>
+
+        <div class="flex flex-col gap-12">
+          <button class="btn btn-primary btn-lg w-full" onclick="startGame()" style="font-size:18px">
+            ⚡ Start Rapid Fire
+          </button>
+          <button class="btn btn-accent btn-lg w-full" onclick="startGame('timed')" style="font-size:18px">
+            ⏱ Timed Mode (30s per card)
+          </button>
+          <a href="daily.html" class="btn btn-outline btn-lg w-full" onclick="SOUNDS.click()">
+            ☀️ Daily Drop Deck
+          </a>
+        </div>
+      </div>
+
+      <!-- GAME -->
+      <div class="game-area hidden" id="gameScreen">
+        <!-- Top row -->
+        <div class="flex items-center justify-between mb-24 flex-wrap gap-12">
+          <button class="btn btn-outline btn-sm" onclick="quitGame()">✕ Quit</button>
+          <div class="quiz-score-badge" id="liveScore">Score: 0</div>
+          <div id="timerDisplay" style="font-family:var(--font-display);font-size:40px;font-weight:800;letter-spacing:-2px;display:none"></div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="quiz-progress mb-8">
+          <div class="quiz-progress-fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <div style="font-size:12px;color:var(--text3);font-weight:600;margin-bottom:24px" id="progressLabel">Card 0 of 15</div>
+
+        <!-- Main quiz card -->
+        <div class="quiz-card tilt" id="quizCard">
+          <div class="quiz-q-label" id="qLabel">RAPID FIRE</div>
+          <p class="quiz-question" id="qText">Loading...</p>
+          <p class="quiz-hint" id="qHint"></p>
+          <div class="quiz-answer-panel" id="ansPanel">
+            <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(248,248,245,0.5);margin-bottom:10px">ANSWER</div>
+            <div class="quiz-answer-text" id="ansText"></div>
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="quiz-actions mt-24" id="actionsBefore">
+          <button class="btn btn-primary btn-lg" onclick="revealAnswer()" id="revealBtn">
+            👁 Reveal Answer
+          </button>
+          <button class="btn btn-glass btn-sm" onclick="skipCard()">Skip →</button>
+        </div>
+
+        <div class="quiz-actions hidden" id="actionsAfter">
+          <button class="btn btn-accent btn-lg" onclick="markCorrect()" style="flex:1">
+            ✅ Got it! (+100)
+          </button>
+          <button class="btn btn-outline btn-lg" onclick="markWrong()" style="flex:1">
+            ❌ Missed it
+          </button>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="results hidden" id="resultsScreen">
+        <div class="result-grade" id="gradeDisplay">S</div>
+        <h2 class="display-md mt-16" id="gradeLabel">Flawless!</h2>
+        <p class="body-lg mt-8 mb-32" id="gradeDesc" style="color:var(--text2)">You crushed it.</p>
+
+        <div class="stats-row mb-32">
+          <div class="stat-card"><div class="stat-number" id="rScore">0</div><div class="stat-label">Score</div></div>
+          <div class="stat-card"><div class="stat-number" id="rCorrect">0</div><div class="stat-label">Correct</div></div>
+          <div class="stat-card"><div class="stat-number" id="rTotal">0</div><div class="stat-label">Cards</div></div>
+          <div class="stat-card"><div class="stat-number" id="rStreak">0</div><div class="stat-label">Streak 🔥</div></div>
+        </div>
+
+        <!-- Answer history -->
+        <div style="max-height:320px;overflow-y:auto;margin-bottom:24px" id="answerHistory"></div>
+
+        <div class="flex flex-col gap-12">
+          <button class="btn btn-primary btn-lg w-full" onclick="startGame()">⚡ Play Again</button>
+          <a href="daily.html" class="btn btn-accent btn-lg w-full" onclick="SOUNDS.click()">☀️ Daily Drop</a>
+          <button class="btn btn-outline btn-lg w-full" onclick="showLobby()">← Back to Lobby</button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-text">Comedy Playbook © 2025</div>
+    <div class="footer-links">
+      <a href="../index.html" class="footer-link">Home</a>
+      <a href="playbook.html" class="footer-link">Playbook</a>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/engine.js"></script>
+  <script src="../js/sounds.js"></script>
+  <script>
+    // ── Game state ────────────────────────────────────────
+    let gameState = null;
+    let timerInterval = null;
+    let timerSec = 30;
+    let isTimed = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      ENGINE.applyHourlyTheme();
+      initNav();
+      initSoundToggle();
+      loadLobbyStats();
+      initTilt();
+    });
+
+    function initNav() {
+      const burger = document.getElementById('burgerBtn');
+      const nav = document.getElementById('mobileNav');
+      burger.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        burger.setAttribute('aria-expanded', open);
+        nav.setAttribute('aria-hidden', !open);
+        SOUNDS.click();
+      });
+    }
+    function initSoundToggle() {
+      const btn = document.getElementById('soundToggle');
+      let on = true;
+      btn.addEventListener('click', () => { on = SOUNDS.toggle(); btn.textContent = on ? '🔊' : '🔇'; });
+    }
+
+    function loadLobbyStats() {
+      const s = ENGINE.loadState();
+      document.getElementById('lobbyHigh').textContent = s.highScore;
+      document.getElementById('lobbyStreak').textContent = s.streak;
+      document.getElementById('lobbyGames').textContent = s.gamesPlayed;
+    }
+
+    function showLobby() {
+      document.getElementById('lobbyScreen').classList.remove('hidden');
+      document.getElementById('gameScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.add('hidden');
+      loadLobbyStats();
+    }
+
+    window.startGame = function(mode = 'normal') {
+      SOUNDS.click();
+      isTimed = mode === 'timed';
+      gameState = ENGINE.startGame('rapid-fire');
+      document.getElementById('lobbyScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.add('hidden');
+      document.getElementById('gameScreen').classList.remove('hidden');
+      document.getElementById('timerDisplay').style.display = isTimed ? '' : 'none';
+      renderCurrentCard();
+    };
+
+    window.quitGame = function() {
+      SOUNDS.click();
+      if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+      showLobby();
+    };
+
+    function renderCurrentCard() {
+      const gs = ENGINE.getGameState();
+      if (!gs || ENGINE.isGameOver()) { showResults(); return; }
+
+      const card = gs.cards[gs.current];
+      document.getElementById('qLabel').textContent = `CARD ${gs.current + 1} OF ${gs.cards.length} · ${card.category.toUpperCase()}`;
+      document.getElementById('qText').textContent = card.q;
+      document.getElementById('qHint').textContent = '💡 ' + card.hint;
+      document.getElementById('ansText').textContent = card.a;
+      document.getElementById('ansPanel').classList.remove('visible');
+      document.getElementById('actionsBefore').classList.remove('hidden');
+      document.getElementById('actionsAfter').classList.add('hidden');
+      document.getElementById('revealBtn').style.display = '';
+      updateProgress(gs);
+      SOUNDS.flip();
+
+      // Animate card in
+      const qc = document.getElementById('quizCard');
+      qc.classList.remove('shake', 'success-flash');
+      qc.style.animation = 'none';
+      requestAnimationFrame(() => { qc.style.animation = ''; });
+
+      // Timer
+      if (isTimed) startTimer();
+    }
+
+    function updateProgress(gs) {
+      const pct = (gs.current / gs.cards.length) * 100;
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressLabel').textContent = `Card ${gs.current + 1} of ${gs.cards.length}`;
+      document.getElementById('liveScore').textContent = `Score: ${gs.score}`;
+    }
+
+    window.revealAnswer = function() {
+      SOUNDS.reveal();
+      ENGINE.revealAnswer();
+      document.getElementById('ansPanel').classList.add('visible');
+      document.getElementById('actionsBefore').classList.add('hidden');
+      document.getElementById('actionsAfter').classList.remove('hidden');
+      if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    };
+
+    window.markCorrect = function() {
+      SOUNDS.success();
+      const qc = document.getElementById('quizCard');
+      qc.classList.add('success-flash');
+      confettiBurst(window.innerWidth / 2, window.innerHeight / 2);
+      ENGINE.markAnswer(true);
+      const gs = ENGINE.getGameState();
+      document.getElementById('liveScore').textContent = `Score: ${gs.score}`;
+      setTimeout(() => renderCurrentCard(), 300);
+    };
+
+    window.markWrong = function() {
+      SOUNDS.error();
+      const qc = document.getElementById('quizCard');
+      qc.classList.add('shake');
+      ENGINE.markAnswer(false);
+      setTimeout(() => renderCurrentCard(), 300);
+    };
+
+    window.skipCard = function() {
+      SOUNDS.swipe();
+      ENGINE.markAnswer(false);
+      renderCurrentCard();
+    };
+
+    // Timer
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerSec = 30;
+      const display = document.getElementById('timerDisplay');
+      display.textContent = timerSec;
+      display.classList.remove('urgent');
+      timerInterval = setInterval(() => {
+        timerSec--;
+        display.textContent = timerSec;
+        if (timerSec <= 5) {
+          display.classList.add('urgent');
+          SOUNDS.urgentTick();
+        } else {
+          SOUNDS.tick();
+        }
+        if (timerSec <= 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          // Auto-reveal on timeout
+          if (!document.getElementById('ansPanel').classList.contains('visible')) {
+            revealAnswer();
+            SOUNDS.error();
+          }
+        }
+      }, 1000);
+    }
+
+    function showResults() {
+      if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+      SOUNDS.gameOver();
+      const gs = ENGINE.endGame();
+      document.getElementById('gameScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.remove('hidden');
+
+      const correct = gs.answers.filter(a => a.correct).length;
+      const total = gs.answers.length;
+      const pct = total > 0 ? (correct / total) : 0;
+
+      let grade, label, desc;
+      if (pct >= 0.9) { grade = 'S'; label = 'LEGENDARY!'; desc = 'You are the comedy playbook.'; document.getElementById('gradeDisplay').className = 'result-grade grade-s'; SOUNDS.streakBonus(); confettiBurst(window.innerWidth/2, 200); }
+      else if (pct >= 0.7) { grade = 'A'; label = 'IMPRESSIVE!'; desc = 'Top-tier comedy IQ.'; document.getElementById('gradeDisplay').className = 'result-grade grade-a'; }
+      else if (pct >= 0.5) { grade = 'B'; label = 'DECENT!'; desc = 'You know your stuff.'; document.getElementById('gradeDisplay').className = 'result-grade grade-b'; }
+      else if (pct >= 0.3) { grade = 'C'; label = 'KEEP GOING!'; desc = 'More practice, more power.'; document.getElementById('gradeDisplay').className = 'result-grade grade-c'; }
+      else { grade = 'F'; label = 'ROOKIE!'; desc = 'Read the playbook and come back.'; document.getElementById('gradeDisplay').className = 'result-grade grade-f'; }
+
+      document.getElementById('gradeDisplay').textContent = grade;
+      document.getElementById('gradeLabel').textContent = label;
+      document.getElementById('gradeDesc').textContent = desc;
+      document.getElementById('rScore').textContent = gs.score;
+      document.getElementById('rCorrect').textContent = correct;
+      document.getElementById('rTotal').textContent = total;
+      document.getElementById('rStreak').textContent = gs.state.streak;
+
+      // History
+      const hist = document.getElementById('answerHistory');
+      hist.innerHTML = gs.answers.map(a => `
+        <div class="history-item">
+          <div class="history-icon">${a.correct ? '✅' : '❌'}</div>
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:13px">${a.card.q}</div>
+            <div style="font-size:13px;color:${a.correct?'#4A6000':'var(--text3)'};margin-top:4px">→ ${a.card.a}</div>
+          </div>
+          <span class="tag ${a.correct?'tag-lime':'tag-pink'}">${a.correct?'+100':'0'}</span>
+        </div>
+      `).join('');
+    }
+
+    // Tilt
+    function initTilt() {
+      const card = document.getElementById('quizCard');
+      if (!card) return;
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = `perspective(800px) rotateX(${-y*6}deg) rotateY(${x*6}deg)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    }
+
+    // Confetti
+    window.confettiBurst = function(x, y) {
+      const colors = ['#C8FF00','#FF1F6D','#0055FF','#FF5C00','#9D00FF','#FFE500'];
+      for (let i = 0; i < 24; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.cssText = `left:${x+(Math.random()-0.5)*300}px;top:${y-50}px;background:${colors[Math.floor(Math.random()*colors.length)]};width:${6+Math.random()*10}px;height:${6+Math.random()*10}px;border-radius:${Math.random()>0.5?'50%':'2px'};animation-duration:${0.8+Math.random()*0.8}s;animation-delay:${Math.random()*0.2}s;`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1600);
+      }
+    };
+  </script>
+</body>
+</html>

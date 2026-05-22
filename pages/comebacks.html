@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comeback Arena ⚔️ — Comedy Playbook</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    .battle-card {
+      background: var(--surface);
+      border-radius: var(--r-xl);
+      border: 2.5px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .battle-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: var(--accent1);
+      border-radius: var(--r-xl) var(--r-xl) 0 0;
+    }
+    .battle-card.red::before { background: var(--accent2); }
+    .battle-card.blue::before { background: var(--accent3); }
+    .battle-card.orange::before { background: var(--accent4); }
+    .battle-card.purple::before { background: var(--accent5); }
+    .battle-card.gold::before { background: var(--yellow); }
+
+    .ultimate-move {
+      background: linear-gradient(135deg, #0A0A0A 0%, #1A0A2E 50%, #0A0A0A 100%);
+      color: white;
+      border: none;
+      border-radius: var(--r-xl);
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .ultimate-move::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: conic-gradient(from 0deg, var(--accent1) 0%, var(--accent2) 25%, var(--accent3) 50%, var(--accent5) 75%, var(--accent1) 100%);
+      opacity: 0.15;
+      animation: spin-bg 8s linear infinite;
+    }
+    @keyframes spin-bg { to { transform: rotate(360deg); } }
+    .ultimate-text {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 6vw, 64px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(90deg, #C8FF00, #FF1F6D, #0055FF, #C8FF00);
+      background-size: 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 4s ease infinite;
+    }
+    @keyframes gradient-shift { 0%,100%{background-position:0%} 50%{background-position:100%} }
+
+    .comeback-item {
+      padding: 14px 18px;
+      border-radius: var(--r-md);
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .comeback-item:hover {
+      background: var(--text);
+      color: var(--bg);
+      transform: translateX(4px);
+    }
+    .comeback-item-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent1);
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    .audience-pill {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: var(--r-pill);
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      margin: 4px;
+    }
+    .audience-pill:hover {
+      background: var(--accent1);
+      border-color: var(--accent1);
+      color: #0A0A0A;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo"><span class="nav-logo-dot"></span>COMEDY PLAYBOOK</a>
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="daily.html" class="nav-link">Daily Drop</a>
+      <a href="playbook.html" class="nav-link">Playbook</a>
+      <a href="quiz.html" class="nav-link">Rapid Fire</a>
+      <a href="flirt.html" class="nav-link">Flirt Lab</a>
+      <a href="comebacks.html" class="nav-link active">Comebacks</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-sound-btn" id="soundToggle" aria-label="Toggle sound">🔊</button>
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="../index.html" class="mobile-nav-link">🏠 Home</a>
+    <a href="daily.html" class="mobile-nav-link">☀️ Daily Drop</a>
+    <a href="playbook.html" class="mobile-nav-link">📖 Playbook</a>
+    <a href="quiz.html" class="mobile-nav-link">⚡ Rapid Fire</a>
+    <a href="flirt.html" class="mobile-nav-link">💘 Flirt Lab</a>
+    <a href="comebacks.html" class="mobile-nav-link active">⚔️ Comebacks</a>
+  </div>
+
+  <main class="main-content page-wrap page-enter">
+    <section class="section">
+      <div class="mb-32">
+        <div class="subheading mb-8">Always have the last word</div>
+        <h1 class="display-lg">Comeback Arena ⚔️</h1>
+        <p class="body-lg mt-16" style="color:var(--text2);max-width:640px">
+          Elite comebacks · audience phrases · ASEAN banter · reality checks · sarcasm shields.
+          Every line is copyable.
+        </p>
+      </div>
+
+      <!-- Category tabs -->
+      <div class="tab-row mb-32" id="cbTabs">
+        <button class="tab active" onclick="showCBSection('ultimate',this)">🏆 Ultimate Move</button>
+        <button class="tab" onclick="showCBSection('categories',this)">⚔️ By Category</button>
+        <button class="tab" onclick="showCBSection('audience',this)">🎤 Audience Phrases</button>
+        <button class="tab" onclick="showCBSection('asean',this)">🌏 ASEAN Banter</button>
+        <button class="tab" onclick="showCBSection('sarcasm',this)">🙄 Sarcasm Shield</button>
+        <button class="tab" onclick="showCBSection('reality',this)">💥 Reality Check</button>
+        <button class="tab" onclick="showCBSection('elite',this)">👑 Elite Lines</button>
+      </div>
+
+      <!-- ULTIMATE MOVE -->
+      <div id="sec-ultimate">
+        <div class="ultimate-move mb-32">
+          <div style="font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:16px;position:relative;z-index:1">The Ultimate Comeback</div>
+          <div class="ultimate-text">"Smile. Pause. 'Okay.'"</div>
+          <p style="font-size:16px;color:rgba(255,255,255,0.7);margin-top:20px;position:relative;z-index:1;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.5">
+            The most powerful comeback needs no words. Smile, pause, and say "Okay." It disarms everything.
+          </p>
+          <button class="btn btn-primary mt-24" onclick="copyLine('Smile. Pause. Okay.')" style="position:relative;z-index:1">
+            📋 Copy This Move
+          </button>
+        </div>
+
+        <!-- Comeback carousel preview -->
+        <div class="section-header mb-16">
+          <h2 class="heading">Quick Battle Deck</h2>
+          <button class="btn btn-outline btn-sm" onclick="shuffleBattleDeck()">🔀 Shuffle</button>
+        </div>
+        <div class="carousel-wrap">
+          <div class="carousel-track-outer" style="border-radius:var(--r-xl)">
+            <div class="carousel-track" id="battleTrack"></div>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn carousel-btn-prev" onclick="carouselNav('battle',-1)" aria-label="Previous"></button>
+            <span class="carousel-counter" id="battleCounter">1 / 1</span>
+            <button class="carousel-btn carousel-btn-next" onclick="carouselNav('battle',1)" aria-label="Next"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CATEGORIES -->
+      <div id="sec-categories" class="hidden">
+        <div id="cbCatContent"></div>
+      </div>
+
+      <!-- AUDIENCE PHRASES -->
+      <div id="sec-audience" class="hidden">
+        <div class="section-header mb-16">
+          <div>
+            <h2 class="heading">101 Audience Participation Phrases 🎤</h2>
+            <p class="body-sm mt-4" style="color:var(--text3)">Tap any phrase to copy it</p>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="shuffleAudience()">🔀 Shuffle</button>
+        </div>
+        <div id="audienceContainer"></div>
+      </div>
+
+      <!-- ASEAN BANTER -->
+      <div id="sec-asean" class="hidden">
+        <div class="section-header mb-24">
+          <div>
+            <h2 class="heading">ASEAN Banter 🌏</h2>
+            <p class="body-sm mt-4" style="color:var(--text3)">East Malaysia · MY-SG · Indian Malaysian · Gen Z</p>
+          </div>
+        </div>
+        <div class="tab-row mb-24" id="aseanTabs">
+          <button class="tab active" onclick="showAsean('east-malaysia',this)">🌴 East Malaysia</button>
+          <button class="tab" onclick="showAsean('my-sg',this)">🇸🇬 MY-SG</button>
+          <button class="tab" onclick="showAsean('indian-malaysian',this)">🌶️ Indian Malaysian</button>
+          <button class="tab" onclick="showAsean('gen-z',this)">📱 Gen Z</button>
+          <button class="tab" onclick="showAsean('workplace',this)">💼 Workplace</button>
+        </div>
+        <div id="aseanContent"></div>
+      </div>
+
+      <!-- SARCASM SHIELD -->
+      <div id="sec-sarcasm" class="hidden">
+        <div class="section-header mb-24">
+          <div>
+            <h2 class="heading">Sarcasm Shield 🙄</h2>
+            <p class="body-sm mt-4" style="color:var(--text3)">When you need to deflect without engaging</p>
+          </div>
+        </div>
+        <div id="sarcasmContent"></div>
+      </div>
+
+      <!-- REALITY CHECK -->
+      <div id="sec-reality" class="hidden">
+        <div class="section-header mb-24">
+          <div>
+            <h2 class="heading">Reality Check 💥</h2>
+            <p class="body-sm mt-4" style="color:var(--text3)">Psychological comebacks · classy shutdowns</p>
+          </div>
+        </div>
+        <div id="realityContent"></div>
+      </div>
+
+      <!-- ELITE LINES -->
+      <div id="sec-elite" class="hidden">
+        <div class="section-header mb-24">
+          <div>
+            <h2 class="heading">Elite Comeback Lines 👑</h2>
+            <p class="body-sm mt-4" style="color:var(--text3)">Workplace · classy · funny · ruthless</p>
+          </div>
+        </div>
+        <div id="eliteContent"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-text">Comedy Playbook © 2025 · 300+ comebacks</div>
+    <div class="footer-links">
+      <a href="../index.html" class="footer-link">Home</a>
+      <a href="playbook.html" class="footer-link">Playbook</a>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/engine.js"></script>
+  <script src="../js/sounds.js"></script>
+  <script>
+    const cbCarousels = {};
+
+    document.addEventListener('DOMContentLoaded', () => {
+      ENGINE.applyHourlyTheme();
+      initNav();
+      initSoundToggle();
+      buildBattleDeck();
+      buildCategories();
+      buildAudience();
+      buildAsean('east-malaysia');
+      buildSarcasm();
+      buildReality();
+      buildElite();
+      initSwipe();
+    });
+
+    function initNav() {
+      const burger = document.getElementById('burgerBtn');
+      const nav = document.getElementById('mobileNav');
+      burger.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        burger.setAttribute('aria-expanded', open);
+        nav.setAttribute('aria-hidden', !open);
+        SOUNDS.click();
+      });
+    }
+    function initSoundToggle() {
+      const btn = document.getElementById('soundToggle');
+      let on = true;
+      btn.addEventListener('click', () => { on = SOUNDS.toggle(); btn.textContent = on ? '🔊' : '🔇'; });
+    }
+
+    const CB_SECTIONS = ['ultimate','categories','audience','asean','sarcasm','reality','elite'];
+    window.showCBSection = function(id, btn) {
+      SOUNDS.click();
+      CB_SECTIONS.forEach(s => { document.getElementById('sec-'+s).classList.add('hidden'); });
+      document.getElementById('sec-'+id).classList.remove('hidden');
+      document.querySelectorAll('#cbTabs .tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+    };
+
+    // ── Battle deck ───────────────────────────────────────
+    function buildBattleDeck() {
+      const all = [];
+      COMEBACKS.categories.forEach(cat => {
+        cat.lines.forEach(l => all.push({ text: l, cat: cat.label, color: cat.color || 'var(--accent1)' }));
+      });
+      const colors = ['#C8FF00','#FF1F6D','#0055FF','#FF5C00','#9D00FF','#FFE500'];
+      const track = document.getElementById('battleTrack');
+      track.innerHTML = all.map((item, i) => battleCard(item.text, item.cat, colors[i % colors.length])).join('');
+      cbCarousels['battle'] = { idx: 0, total: all.length };
+      updateCbCarousel('battle');
+    }
+
+    function battleCard(text, cat, color) {
+      const safe = text.replace(/'/g, "\\'").replace(/\\/g, '\\\\');
+      return `<div class="carousel-slide">
+        <div class="battle-card tilt" style="--card-accent:${color}">
+          <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text3);margin-bottom:16px;text-transform:uppercase">${cat}</div>
+          <div style="font-family:var(--font-display);font-size:clamp(18px,2.5vw,26px);font-weight:800;letter-spacing:-0.5px;line-height:1.3;flex:1;margin-bottom:24px">"${text}"</div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:13px;color:var(--text3)">⚔️ Tap to copy</span>
+            <button class="btn btn-outline btn-sm" onclick="copyLine('${safe}')">📋 Copy</button>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    window.shuffleBattleDeck = function() {
+      SOUNDS.swipe();
+      const track = document.getElementById('battleTrack');
+      const slides = Array.from(track.children);
+      const shuffled = ENGINE.shuffleWithSeed(slides, Date.now());
+      track.innerHTML = '';
+      shuffled.forEach(s => track.appendChild(s));
+      cbCarousels['battle'].idx = 0;
+      updateCbCarousel('battle');
+      showToast('🔀 Shuffled!');
+    };
+
+    // ── Categories ────────────────────────────────────────
+    const CAT_COLORS = { workplace: '#C8FF00', classy: '#FFE500', funny: '#FF5C00', psychological: '#9D00FF', ruthless: '#FF1F6D', basic: '#0055FF' };
+    function buildCategories() {
+      const el = document.getElementById('cbCatContent');
+      el.innerHTML = COMEBACKS.categories.map(cat => `
+        <div class="battle-card ${cat.id} mb-24" id="cat-${cat.id}">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+            <h3 class="heading">${cat.icon} ${cat.label}</h3>
+            <span class="tag" style="background:${CAT_COLORS[cat.id] || 'var(--accent1)'}22;color:${CAT_COLORS[cat.id] || 'var(--accent1)'};">${cat.lines.length} lines</span>
+          </div>
+          ${cat.desc ? `<p style="font-size:14px;color:var(--text2);margin-bottom:16px">${cat.desc}</p>` : ''}
+          ${cat.lines.map(l => comebackItem(l, CAT_COLORS[cat.id])).join('')}
+        </div>
+      `).join('');
+    }
+
+    function comebackItem(text, color = 'var(--accent1)') {
+      const safe = text.replace(/'/g, "\\'").replace(/\\/g, '\\\\');
+      return `<div class="comeback-item" onclick="copyLine('${safe}')">
+        <div class="comeback-item-dot" style="background:${color}"></div>
+        <span>${text}</span>
+      </div>`;
+    }
+
+    // ── Audience phrases ──────────────────────────────────
+    function buildAudience() {
+      const el = document.getElementById('audienceContainer');
+      el.innerHTML = `<div id="audiencePills" style="line-height:2">` +
+        AUDIENCE_PHRASES.phrases.map(p => audiencePill(p)).join('') +
+      `</div>`;
+    }
+    function audiencePill(text) {
+      const safe = text.replace(/'/g, "\\'").replace(/\\/g, '\\\\');
+      return `<span class="audience-pill" onclick="copyLine('${safe}')">${text}</span>`;
+    }
+    window.shuffleAudience = function() {
+      SOUNDS.swipe();
+      const shuffled = ENGINE.shuffleWithSeed([...AUDIENCE_PHRASES.phrases], Date.now());
+      document.getElementById('audiencePills').innerHTML = shuffled.map(p => audiencePill(p)).join('');
+      showToast('🔀 Shuffled!');
+    };
+
+    // ── ASEAN ─────────────────────────────────────────────
+    function buildAsean(id) {
+      const el = document.getElementById('aseanContent');
+      const section = AUDIT_LINES.sections.find(s => s.id === id);
+      if (!section) { el.innerHTML = '<p style="color:var(--text3)">Coming soon</p>'; return; }
+      el.innerHTML = `<div class="battle-card">
+        <h3 class="heading mb-16">${section.label}</h3>
+        ${section.lines.map(l => comebackItem(l, '#C8FF00')).join('')}
+      </div>`;
+    }
+    window.showAsean = function(id, btn) {
+      SOUNDS.click();
+      document.querySelectorAll('#aseanTabs .tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      buildAsean(id);
+    };
+
+    // ── Sarcasm ───────────────────────────────────────────
+    function buildSarcasm() {
+      const el = document.getElementById('sarcasmContent');
+      const sec = AUDIT_LINES.sections.find(s => s.id === 'sarcasm');
+      if (!sec) { el.innerHTML = `<p style="color:var(--text3)">No sarcasm data found.</p>`; return; }
+      el.innerHTML = `<div class="battle-card red">
+        ${sec.lines.map(l => comebackItem(l, '#FF1F6D')).join('')}
+      </div>`;
+    }
+
+    // ── Reality check ─────────────────────────────────────
+    function buildReality() {
+      const el = document.getElementById('realityContent');
+      const psych = COMEBACKS.categories.find(c => c.id === 'psychological');
+      const classy = COMEBACKS.categories.find(c => c.id === 'classy');
+      let html = '';
+      if (psych) {
+        html += `<div class="battle-card purple mb-24">
+          <h3 class="heading mb-4">${psych.icon} ${psych.label}</h3>
+          <p style="font-size:14px;color:var(--text2);margin-bottom:16px">${psych.desc || ''}</p>
+          ${psych.lines.map(l => comebackItem(l, '#9D00FF')).join('')}
+        </div>`;
+      }
+      if (classy) {
+        html += `<div class="battle-card gold mb-24">
+          <h3 class="heading mb-4">${classy.icon} ${classy.label}</h3>
+          <p style="font-size:14px;color:var(--text2);margin-bottom:16px">${classy.desc || ''}</p>
+          ${classy.lines.map(l => comebackItem(l, '#FFE500')).join('')}
+        </div>`;
+      }
+      // Add reality check lines from comebacks if present
+      if (COMEBACKS.realityCheck) {
+        html += `<div class="battle-card orange mb-24">
+          <h3 class="heading mb-16">💥 Reality Check Lines</h3>
+          ${COMEBACKS.realityCheck.map(l => comebackItem(l, '#FF5C00')).join('')}
+        </div>`;
+      }
+      el.innerHTML = html || `<p style="color:var(--text3)">No reality check data found.</p>`;
+    }
+
+    // ── Elite lines ───────────────────────────────────────
+    function buildElite() {
+      const el = document.getElementById('eliteContent');
+      const work = COMEBACKS.categories.find(c => c.id === 'workplace');
+      const funny = COMEBACKS.categories.find(c => c.id === 'funny');
+      const ruthless = COMEBACKS.categories.find(c => c.id === 'ruthless');
+      let html = '';
+      [work, funny, ruthless].filter(Boolean).forEach(cat => {
+        html += `<div class="battle-card mb-24">
+          <h3 class="heading mb-4">${cat.icon} ${cat.label}</h3>
+          <p style="font-size:14px;color:var(--text2);margin-bottom:16px">${cat.desc || ''}</p>
+          ${cat.lines.map(l => comebackItem(l, CAT_COLORS[cat.id] || 'var(--accent1)')).join('')}
+        </div>`;
+      });
+      // Elite lines section from COMEBACKS if present
+      if (COMEBACKS.elite) {
+        html += `<div class="battle-card mb-24" style="background:linear-gradient(135deg,var(--surface),var(--surface2))">
+          <h3 class="heading mb-16">👑 The Elite</h3>
+          ${COMEBACKS.elite.map(l => comebackItem(l, 'var(--yellow)')).join('')}
+        </div>`;
+      }
+      el.innerHTML = html || `<p style="color:var(--text3)">No elite data found.</p>`;
+    }
+
+    // ── Carousel navigation ───────────────────────────────
+    window.carouselNav = function(id, dir) {
+      SOUNDS.swipe();
+      const c = cbCarousels[id];
+      if (!c) return;
+      c.idx = Math.max(0, Math.min(c.idx + dir, c.total - 1));
+      updateCbCarousel(id);
+    };
+    function updateCbCarousel(id) {
+      const c = cbCarousels[id];
+      if (!c) return;
+      const track = document.getElementById(id+'Track');
+      if (track) track.style.transform = `translateX(-${c.idx * 100}%)`;
+      const counter = document.getElementById(id+'Counter');
+      if (counter) counter.textContent = `${c.idx + 1} / ${c.total}`;
+    }
+
+    // ── Swipe ─────────────────────────────────────────────
+    function initSwipe() {
+      const outer = document.querySelector('#sec-ultimate .carousel-track-outer');
+      if (!outer) return;
+      let sx = 0;
+      outer.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+      outer.addEventListener('touchend', e => {
+        const diff = sx - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) carouselNav('battle', diff > 0 ? 1 : -1);
+      });
+    }
+
+    // ── Copy ──────────────────────────────────────────────
+    window.copyLine = function(text) {
+      SOUNDS.copy();
+      navigator.clipboard.writeText(text).then(() => showToast('📋 Copied: ' + text.substring(0,50) + (text.length > 50 ? '...' : '')));
+    };
+
+    // ── Toast ─────────────────────────────────────────────
+    window.showToast = function(msg) {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      const t = document.createElement('div');
+      t.className = 'toast'; t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => { t.classList.add('toast-out'); setTimeout(() => t.remove(), 300); }, 2500);
+    };
+
+    // ── Tilt ──────────────────────────────────────────────
+    document.addEventListener('mousemove', e => {
+      const card = e.target.closest('.tilt');
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(800px) rotateX(${-y*5}deg) rotateY(${x*5}deg)`;
+    });
+    document.addEventListener('mouseleave', e => {
+      if (e.target.closest('.tilt')) e.target.closest('.tilt').style.transform = '';
+    }, true);
+  </script>
+</body>
+</html>

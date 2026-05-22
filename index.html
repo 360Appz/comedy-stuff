@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Comedy Playbook — Interactive adventure game for everyday comedy, flirting, comebacks & ASEAN humour." />
+  <title>Comedy Playbook 🎭 — Unlock Your Inner Comedian</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎭</text></svg>" />
+</head>
+<body>
+  <!-- Background blobs -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-dot"></span>
+      COMEDY PLAYBOOK
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="pages/daily.html" class="nav-link">Daily Drop</a>
+      <a href="pages/playbook.html" class="nav-link">Playbook</a>
+      <a href="pages/quiz.html" class="nav-link">Rapid Fire</a>
+      <a href="pages/flirt.html" class="nav-link">Flirt Lab</a>
+      <a href="pages/comebacks.html" class="nav-link">Comebacks</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-sound-btn" id="soundToggle" title="Toggle sound" aria-label="Toggle sound effects">🔊</button>
+      <button class="burger" id="burgerBtn" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav -->
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="index.html" class="mobile-nav-link active">🏠 Home</a>
+    <a href="pages/daily.html" class="mobile-nav-link">☀️ Daily Drop</a>
+    <a href="pages/playbook.html" class="mobile-nav-link">📖 Playbook</a>
+    <a href="pages/quiz.html" class="mobile-nav-link">⚡ Rapid Fire</a>
+    <a href="pages/flirt.html" class="mobile-nav-link">💘 Flirt Lab</a>
+    <a href="pages/comebacks.html" class="mobile-nav-link">⚔️ Comebacks</a>
+  </div>
+
+  <main class="main-content page-wrap">
+
+    <!-- ═══════════════════════════════════════════ HERO ═══ -->
+    <section class="hero" id="hero" aria-label="Hero section">
+      <!-- Floating decorations -->
+      <span class="float-el" style="top:15%;right:8%;font-size:60px;animation-delay:0s">🎭</span>
+      <span class="float-el" style="top:40%;right:20%;font-size:40px;animation-delay:1s">✨</span>
+      <span class="float-el" style="bottom:20%;right:12%;font-size:50px;animation-delay:2s">🔥</span>
+      <span class="float-el" style="top:20%;right:35%;font-size:30px;animation-delay:0.5s">💬</span>
+
+      <div style="max-width:1400px;margin:0 auto;width:100%">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          9 SOURCE FILES · 500+ LINES · DAILY DROPS
+        </div>
+
+        <div class="hero-title">
+          <div class="display-xl">
+            <span class="line"><span class="word">COMEDY</span></span>
+            <span class="line">
+              <span class="word hero-accent-block" style="background:var(--accent1);color:var(--text)">UNLOCKED</span>
+            </span>
+            <span class="line"><span class="word text-stroke">PLAYBOOK.</span></span>
+          </div>
+        </div>
+
+        <p class="hero-subtitle">
+          What to say, when to say it, and how not to accidentally become the joke. 
+          500+ lines. Interactive games. Daily drops. <strong>Zero cringe.</strong>
+        </p>
+
+        <div class="hero-cta-row">
+          <a href="pages/quiz.html" class="btn btn-primary btn-lg" onclick="SOUNDS.click()">
+            ⚡ Play Rapid Fire
+          </a>
+          <a href="pages/daily.html" class="btn btn-accent btn-lg" onclick="SOUNDS.click()">
+            ☀️ Today's Drop
+          </a>
+          <a href="pages/playbook.html" class="btn btn-outline btn-lg" onclick="SOUNDS.click()">
+            📖 Read Playbook
+          </a>
+        </div>
+
+        <!-- Stats row -->
+        <div class="stats-row mt-32" id="statsRow">
+          <div class="stat-card" style="border-color:var(--accent1)">
+            <div class="stat-number" id="statScore">0</div>
+            <div class="stat-label">Your Score</div>
+          </div>
+          <div class="stat-card" style="border-color:var(--accent2)">
+            <div class="stat-number" id="statStreak">0</div>
+            <div class="stat-label">Day Streak 🔥</div>
+          </div>
+          <div class="stat-card" style="border-color:var(--accent3)">
+            <div class="stat-number" id="statGames">0</div>
+            <div class="stat-label">Games Played</div>
+          </div>
+          <div class="stat-card" style="border-color:var(--accent5)">
+            <div class="stat-number" id="statHigh">0</div>
+            <div class="stat-label">High Score 🏆</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ TICKER ════════════ -->
+    <div class="ticker-wrap" aria-label="Quote ticker" role="marquee">
+      <div class="ticker-inner" id="ticker">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════ DAILY DROP ════════════ -->
+    <section class="section" aria-label="Daily drop section">
+      <div class="section-header">
+        <div>
+          <div class="subheading mb-8">Fresh Every Day</div>
+          <h2 class="display-md">Today's Drop ☀️</h2>
+        </div>
+        <a href="pages/daily.html" class="btn btn-outline btn-sm" onclick="SOUNDS.click()">See All →</a>
+      </div>
+
+      <div class="daily-strip">
+        <!-- Quote of the Day -->
+        <div class="quote-card tilt" id="qotdCard" style="flex:1.5">
+          <span class="quote-marks">"</span>
+          <p class="quote-text" id="qotdText">Loading...</p>
+          <div class="quote-meta">
+            <span id="qotdCategory"></span>
+            · QUOTE OF THE DAY
+          </div>
+          <button class="btn btn-glass btn-sm mt-24" onclick="copyQuote()" style="color:var(--text)">
+            📋 Copy
+          </button>
+        </div>
+
+        <!-- Question of the Day -->
+        <div class="daily-card tilt" style="flex:1;min-width:280px">
+          <div class="daily-card-label">
+            <span class="daily-card-label-dot"></span>
+            Question of the Day
+          </div>
+          <div class="heading mb-16" id="qotdEmoji" style="font-size:48px">💭</div>
+          <p class="body-lg" id="qotdQuestion" style="font-weight:600">Loading...</p>
+          <div class="mt-24 flex gap-8 flex-wrap">
+            <span class="tag" id="qotdTag" style="background:rgba(200,255,0,0.2);color:#5C7A00;border:1px solid rgba(200,255,0,0.5)"></span>
+          </div>
+          <div class="mt-24">
+            <div style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:1px">
+              Refreshes in
+            </div>
+            <div class="countdown mt-8" id="countdownTimer">--:--:--</div>
+          </div>
+        </div>
+
+        <!-- Rapid Fire Teaser -->
+        <div class="daily-card" style="background:var(--text);color:var(--bg);flex:1;min-width:280px">
+          <div class="daily-card-label" style="color:rgba(248,248,245,0.5)">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--accent1);display:inline-block"></span>
+            Rapid Fire Preview
+          </div>
+          <div style="font-size:48px;margin-bottom:16px">⚡</div>
+          <p style="font-family:var(--font-display);font-size:clamp(18px,2.5vw,22px);font-weight:800;letter-spacing:-0.5px;color:var(--accent1)" id="rfPreviewQ">Loading...</p>
+          <p style="font-size:13px;color:rgba(248,248,245,0.5);margin-top:8px" id="rfPreviewHint"></p>
+          <div class="mt-24">
+            <a href="pages/quiz.html" class="btn btn-accent btn-sm" onclick="SOUNDS.click()">Play Now ⚡</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ MODULE GRID ══════════════ -->
+    <section class="section" aria-label="Module selection">
+      <div class="section-header">
+        <div>
+          <div class="subheading mb-8">Choose Your Adventure</div>
+          <h2 class="display-md">Explore Modules 🗺️</h2>
+        </div>
+      </div>
+
+      <div class="grid-3" id="moduleGrid">
+        <!-- Module cards rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ════════════════════ RAPID FIRE PREVIEW ══════════ -->
+    <section class="section" aria-label="Rapid fire preview">
+      <div class="section-header">
+        <div>
+          <div class="subheading mb-8">Brain Warm-Up</div>
+          <h2 class="display-md">Try a Quick Card ⚡</h2>
+        </div>
+        <a href="pages/quiz.html" class="btn btn-primary btn-sm" onclick="SOUNDS.click()">Full Game →</a>
+      </div>
+
+      <!-- Mini quiz card -->
+      <div class="quiz-arena" style="max-width:600px">
+        <div class="card" style="padding:0;border-color:var(--text);box-shadow:6px 6px 0 var(--text)">
+          <div style="padding:32px" id="miniQuizContainer">
+            <div class="quiz-q-label">RAPID FIRE SAMPLE</div>
+            <p class="quiz-question" id="miniQ">Loading...</p>
+            <div class="quiz-hint" id="miniHint"></div>
+            <div class="quiz-answer-panel" id="miniAns">
+              <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(248,248,245,0.5);margin-bottom:8px">ANSWER</div>
+              <div class="quiz-answer-text" id="miniAnsText"></div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div style="padding:16px 32px;display:flex;gap:12px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" id="miniRevealBtn" onclick="miniReveal()">👁 Reveal Answer</button>
+            <button class="btn btn-outline btn-sm" onclick="miniNext()">Next Card →</button>
+            <a href="pages/quiz.html" class="btn btn-accent btn-sm" onclick="SOUNDS.click()">⚡ Full Game</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════ FOOTER ════════════════ -->
+    <footer class="footer" role="contentinfo">
+      <div class="footer-text">
+        Comedy Playbook © 2025 · Built with words that hit different
+      </div>
+      <div class="footer-links">
+        <a href="pages/daily.html" class="footer-link">Daily Drop</a>
+        <a href="pages/playbook.html" class="footer-link">Playbook</a>
+        <a href="pages/quiz.html" class="footer-link">Quiz</a>
+        <a href="pages/flirt.html" class="footer-link">Flirt Lab</a>
+        <a href="pages/comebacks.html" class="footer-link">Comebacks</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/sounds.js"></script>
+  <script>
+    // ── Init ──────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      ENGINE.applyHourlyTheme();
+      initNav();
+      initStats();
+      initTicker();
+      initDailyDrop();
+      initModuleGrid();
+      initMiniQuiz();
+      initCountdown();
+      initTiltCards();
+      initSoundToggle();
+    });
+
+    // ── Nav ───────────────────────────────────────────────
+    function initNav() {
+      const burger = document.getElementById('burgerBtn');
+      const nav = document.getElementById('mobileNav');
+      burger.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        burger.setAttribute('aria-expanded', open);
+        nav.setAttribute('aria-hidden', !open);
+        SOUNDS.click();
+      });
+    }
+
+    // ── Sound toggle ──────────────────────────────────────
+    function initSoundToggle() {
+      const btn = document.getElementById('soundToggle');
+      let on = true;
+      btn.addEventListener('click', () => {
+        on = SOUNDS.toggle();
+        btn.textContent = on ? '🔊' : '🔇';
+        btn.title = on ? 'Mute sound' : 'Unmute sound';
+        if (on) SOUNDS.click();
+      });
+    }
+
+    // ── Stats ─────────────────────────────────────────────
+    function initStats() {
+      const s = ENGINE.loadState();
+      animateNumber('statScore', s.totalScore);
+      animateNumber('statStreak', s.streak);
+      animateNumber('statGames', s.gamesPlayed);
+      animateNumber('statHigh', s.highScore);
+    }
+
+    function animateNumber(id, target) {
+      const el = document.getElementById(id);
+      if (!el || target === 0) return;
+      let cur = 0;
+      const step = Math.ceil(target / 30);
+      const t = setInterval(() => {
+        cur = Math.min(cur + step, target);
+        el.textContent = cur;
+        if (cur >= target) clearInterval(t);
+      }, 30);
+    }
+
+    // ── Ticker ────────────────────────────────────────────
+    function initTicker() {
+      const quotes = ENGINE.getTickerQuotes();
+      const ticker = document.getElementById('ticker');
+      // Duplicate for seamless loop
+      const items = [...quotes, ...quotes].map(q =>
+        `<span class="ticker-item">${q.text}<span class="ticker-sep">✦</span></span>`
+      ).join('');
+      ticker.innerHTML = items;
+    }
+
+    // ── Daily drop ────────────────────────────────────────
+    function initDailyDrop() {
+      // QOTD
+      const qotd = ENGINE.getDailyQuote();
+      document.getElementById('qotdText').textContent = qotd.text;
+      document.getElementById('qotdCategory').textContent = qotd.category.replace(/-/g,' ').toUpperCase();
+
+      // QOTD Question
+      const q = ENGINE.getDailyQuestion();
+      document.getElementById('qotdEmoji').textContent = q.emoji;
+      document.getElementById('qotdQuestion').textContent = q.q;
+      document.getElementById('qotdTag').textContent = q.category;
+
+      // RF Preview
+      const rf = ENGINE.getShuffledRapidFire();
+      const card = rf[0];
+      document.getElementById('rfPreviewQ').textContent = card.q;
+      document.getElementById('rfPreviewHint').textContent = '💡 ' + card.hint;
+    }
+
+    window.copyQuote = function () {
+      const text = document.getElementById('qotdText').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        SOUNDS.copy();
+        showToast('📋 Copied to clipboard!');
+      }).catch(() => {
+        showToast('Could not copy — try manually!');
+      });
+    };
+
+    // ── Module grid ───────────────────────────────────────
+    const MODULES = [
+      {
+        icon: '📖', title: 'Comedy Playbook', color: 'lime',
+        desc: '30 chapters of comedy science — formulas, Malaysian/Singaporean/ASEAN lines, dad jokes, work comedy & more.',
+        cta: 'Open Playbook', href: 'pages/playbook.html', badge: '30 Chapters'
+      },
+      {
+        icon: '⚡', title: 'Rapid Fire Quiz', color: 'pink',
+        desc: 'Flash-card quiz from all content. Race the clock. Score points. Beat your streak. New shuffle every hour.',
+        cta: 'Play Now', href: 'pages/quiz.html', badge: '40 Cards'
+      },
+      {
+        icon: '☀️', title: 'Daily Drop', color: 'blue',
+        desc: 'Your daily quote, question of the day, and a curated set of cards to reflect on. Refreshes at midnight.',
+        cta: 'Open Daily', href: 'pages/daily.html', badge: 'New Daily'
+      },
+      {
+        icon: '💘', title: 'Flirt Lab', color: 'orange',
+        desc: '67 flirty texts, 80 messages, luxury good morning notes, lunch & dinner wishes. All strategies covered.',
+        cta: 'Enter Lab', href: 'pages/flirt.html', badge: '200+ Lines'
+      },
+      {
+        icon: '⚔️', title: 'Comeback Arena', color: 'purple',
+        desc: 'Elite comebacks, workplace replies, psychological reversals & the ultimate move. Get unbothered.',
+        cta: 'Battle Now', href: 'pages/comebacks.html', badge: '50+ Lines'
+      },
+      {
+        icon: '🌏', title: 'ASEAN Vibes', color: 'yellow',
+        desc: 'Malaysia · Singapore · East Malaysia · Philippines · Vietnam · Thailand · Indonesia · Brunei humour.',
+        cta: 'Explore', href: 'pages/playbook.html#asean', badge: 'Regional'
+      }
+    ];
+
+    function initModuleGrid() {
+      const grid = document.getElementById('moduleGrid');
+      const colorBorderMap = {
+        lime: 'var(--accent1)', pink: 'var(--accent2)', blue: 'var(--accent3)',
+        orange: 'var(--accent4)', purple: 'var(--accent5)', yellow: 'var(--yellow)'
+      };
+      grid.innerHTML = MODULES.map((m, i) => `
+        <a href="${m.href}" class="card module-card card-${m.color} tilt"
+           style="animation: bounce-in 0.5s ${i * 0.08}s both"
+           onmouseenter="SOUNDS.hover()" onclick="SOUNDS.click()">
+          <div class="card-header" style="padding-bottom:0">
+            <div>
+              <span class="module-card-emoji">${m.icon}</span>
+              <div class="heading">${m.title}</div>
+              <span class="tag tag-${m.color} mt-8">${m.badge}</span>
+            </div>
+          </div>
+          <div class="card-body" style="padding-top:16px">
+            <p class="module-card-desc">${m.desc}</p>
+            <div class="module-card-cta">${m.cta} →</div>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    // ── Mini quiz ─────────────────────────────────────────
+    let miniCards = [];
+    let miniIdx = 0;
+    let miniRevealed = false;
+
+    function initMiniQuiz() {
+      miniCards = ENGINE.getShuffledRapidFire();
+      showMiniCard();
+    }
+
+    function showMiniCard() {
+      if (miniIdx >= miniCards.length) miniIdx = 0;
+      const card = miniCards[miniIdx];
+      document.getElementById('miniQ').textContent = card.q;
+      document.getElementById('miniHint').textContent = '💡 ' + card.hint;
+      document.getElementById('miniAns').classList.remove('visible');
+      document.getElementById('miniAnsText').textContent = card.a;
+      document.getElementById('miniRevealBtn').style.display = '';
+      miniRevealed = false;
+    }
+
+    window.miniReveal = function () {
+      SOUNDS.reveal();
+      document.getElementById('miniAns').classList.add('visible');
+      document.getElementById('miniRevealBtn').style.display = 'none';
+      miniRevealed = true;
+    };
+
+    window.miniNext = function () {
+      SOUNDS.swipe();
+      miniIdx++;
+      showMiniCard();
+    };
+
+    // ── Countdown timer ───────────────────────────────────
+    function initCountdown() {
+      function update() {
+        const ms = ENGINE.msToMidnight();
+        document.getElementById('countdownTimer').textContent = ENGINE.formatCountdown(ms);
+      }
+      update();
+      setInterval(update, 1000);
+    }
+
+    // ── 3D tilt effect ────────────────────────────────────
+    function initTiltCards() {
+      document.querySelectorAll('.tilt').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          card.style.transform = `perspective(800px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg) translateY(-4px)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = '';
+        });
+      });
+    }
+
+    // ── Toast ─────────────────────────────────────────────
+    window.showToast = function (msg, duration = 3000) {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => {
+        t.classList.add('toast-out');
+        setTimeout(() => t.remove(), 300);
+      }, duration);
+    };
+
+    // ── Confetti burst ────────────────────────────────────
+    window.confettiBurst = function (x, y) {
+      const colors = ['#C8FF00','#FF1F6D','#0055FF','#FF5C00','#9D00FF','#FFE500'];
+      for (let i = 0; i < 20; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.cssText = `
+          left: ${x + (Math.random() - 0.5) * 200}px;
+          top: ${y}px;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          width: ${6 + Math.random() * 8}px;
+          height: ${6 + Math.random() * 8}px;
+          border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+          animation-duration: ${0.8 + Math.random() * 0.8}s;
+          animation-delay: ${Math.random() * 0.3}s;
+        `;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1600);
+      }
+    };
+
+    // ── Hourly theme refresh ──────────────────────────────
+    setInterval(() => {
+      ENGINE.applyHourlyTheme();
+    }, 60000); // Check every minute, theme only changes on hour boundary
+  </script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Drop ☀️ — Comedy Playbook</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    .rf-card-wrap {
+      height: 360px;
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      border: 2px solid var(--text);
+      box-shadow: 6px 6px 0 var(--text);
+    }
+    .rf-card-front {
+      background: var(--surface);
+      height: 100%;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+    .rf-card-back {
+      background: var(--text);
+      color: var(--bg);
+      height: 100%;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .rf-q {
+      font-family: var(--font-display);
+      font-size: clamp(20px,3vw,28px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.25;
+    }
+    .rf-a {
+      font-family: var(--font-display);
+      font-size: clamp(22px,3.5vw,34px);
+      font-weight: 800;
+      color: var(--accent1);
+      letter-spacing: -1px;
+    }
+    .rf-category {
+      position: absolute;
+      top: 16px; right: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      background: var(--surface2);
+      padding: 4px 12px;
+      border-radius: var(--r-pill);
+      color: var(--text3);
+    }
+    .swipe-hint {
+      font-size: 12px;
+      color: var(--text3);
+      text-align: center;
+      margin-top: 12px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">
+      <span class="nav-logo-dot"></span>COMEDY PLAYBOOK
+    </a>
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="daily.html" class="nav-link active">Daily Drop</a>
+      <a href="playbook.html" class="nav-link">Playbook</a>
+      <a href="quiz.html" class="nav-link">Rapid Fire</a>
+      <a href="flirt.html" class="nav-link">Flirt Lab</a>
+      <a href="comebacks.html" class="nav-link">Comebacks</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-sound-btn" id="soundToggle" aria-label="Toggle sound">🔊</button>
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="../index.html" class="mobile-nav-link">🏠 Home</a>
+    <a href="daily.html" class="mobile-nav-link active">☀️ Daily Drop</a>
+    <a href="playbook.html" class="mobile-nav-link">📖 Playbook</a>
+    <a href="quiz.html" class="mobile-nav-link">⚡ Rapid Fire</a>
+    <a href="flirt.html" class="mobile-nav-link">💘 Flirt Lab</a>
+    <a href="comebacks.html" class="mobile-nav-link">⚔️ Comebacks</a>
+  </div>
+
+  <main class="main-content page-wrap page-enter">
+    <section class="section">
+      <!-- Header -->
+      <div class="flex items-center justify-between flex-wrap gap-16 mb-32">
+        <div>
+          <div class="subheading mb-8">Refreshes at midnight</div>
+          <h1 class="display-lg">Today's Drop ☀️</h1>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:1px">Next drop in</div>
+          <div class="countdown" id="countdownTimer">--:--:--</div>
+        </div>
+      </div>
+
+      <!-- Quote + Question row -->
+      <div class="grid-2 mb-32">
+        <!-- Big quote card -->
+        <div class="quote-card tilt" id="bigQotd" style="cursor:pointer" onclick="SOUNDS.copy();copyQotd()" title="Click to copy">
+          <span class="quote-marks">"</span>
+          <p class="quote-text" id="qotdText">Loading...</p>
+          <div class="quote-meta mt-16" id="qotdMeta">QUOTE OF THE DAY</div>
+          <div style="margin-top:20px;font-size:13px;color:rgba(248,248,245,0.4);font-weight:600">Click to copy</div>
+        </div>
+
+        <!-- Question of the day -->
+        <div class="card" style="border-color:var(--accent2);padding:0;overflow:hidden">
+          <div style="background:var(--accent2);padding:20px 24px;color:white">
+            <div style="font-size:11px;font-weight:700;letter-spacing:2px;opacity:0.7;margin-bottom:8px">QUESTION OF THE DAY</div>
+            <div style="font-size:40px" id="qEmoji">💭</div>
+          </div>
+          <div style="padding:28px">
+            <p style="font-family:var(--font-display);font-size:clamp(18px,2.5vw,24px);font-weight:800;letter-spacing:-0.5px;line-height:1.3" id="qText">Loading...</p>
+            <div class="mt-24 flex gap-8 flex-wrap">
+              <span class="tag tag-pink" id="qCategory"></span>
+            </div>
+            <p style="font-size:13px;color:var(--text3);margin-top:16px;font-style:italic">Reflect, share, or journal this one today.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rapid Fire Deck section -->
+      <div class="section-header">
+        <div>
+          <div class="subheading mb-8">Shuffled Hourly</div>
+          <h2 class="display-md">Rapid Fire Deck ⚡</h2>
+        </div>
+        <div class="flex gap-8">
+          <div style="text-align:right">
+            <div style="font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:1px">Next shuffle in</div>
+            <div style="font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-1px" id="hourTimer">--:--</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card counter + category filter -->
+      <div class="tab-row mb-24" id="rfTabs">
+        <button class="tab active" onclick="filterRF('all',this)">All</button>
+        <button class="tab" onclick="filterRF('playbook',this)">Playbook 📖</button>
+        <button class="tab" onclick="filterRF('malaysia',this)">Malaysia 🇲🇾</button>
+        <button class="tab" onclick="filterRF('singapore',this)">Singapore 🇸🇬</button>
+        <button class="tab" onclick="filterRF('comeback',this)">Comebacks ⚔️</button>
+        <button class="tab" onclick="filterRF('flirty',this)">Flirty 💘</button>
+        <button class="tab" onclick="filterRF('gen-z',this)">Gen Z ✨</button>
+        <button class="tab" onclick="filterRF('asean',this)">ASEAN 🌏</button>
+        <button class="tab" onclick="filterRF('work',this)">Work 💼</button>
+      </div>
+
+      <!-- RF Carousel -->
+      <div class="carousel-wrap" style="max-width:700px;margin:0 auto">
+        <div class="carousel-track-outer rf-card-wrap" id="rfTrackOuter">
+          <div class="carousel-track" id="rfTrack">
+            <!-- Slides injected by JS -->
+          </div>
+        </div>
+        <div class="carousel-nav">
+          <button class="carousel-btn carousel-btn-prev" id="rfPrev" onclick="rfCarousel(-1)" aria-label="Previous card"></button>
+          <span class="carousel-counter" id="rfCounter">1 / 1</span>
+          <button class="carousel-btn carousel-btn-next" id="rfNext" onclick="rfCarousel(1)" aria-label="Next card"></button>
+        </div>
+        <div class="swipe-hint">Swipe or use arrows · Tap card to reveal answer</div>
+      </div>
+
+      <!-- Inspiring quotes carousel -->
+      <div class="mt-32">
+        <div class="section-header">
+          <div>
+            <div class="subheading mb-8">Daily Inspiration</div>
+            <h2 class="display-md">Quote Drops 💫</h2>
+          </div>
+        </div>
+
+        <div class="carousel-wrap">
+          <div class="carousel-track-outer" style="border-radius:var(--r-xl)">
+            <div class="carousel-track" id="quoteCarouselTrack">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn carousel-btn-prev" onclick="quoteCarousel(-1)" aria-label="Previous quote"></button>
+            <span class="carousel-counter" id="quoteCounter">1 / 1</span>
+            <button class="carousel-btn carousel-btn-next" onclick="quoteCarousel(1)" aria-label="Next quote"></button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-text">Comedy Playbook © 2025</div>
+    <div class="footer-links">
+      <a href="../index.html" class="footer-link">Home</a>
+      <a href="playbook.html" class="footer-link">Playbook</a>
+      <a href="quiz.html" class="footer-link">Quiz</a>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/engine.js"></script>
+  <script src="../js/sounds.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      ENGINE.applyHourlyTheme();
+      initNav();
+      initSoundToggle();
+      initDailyContent();
+      initRFCarousel();
+      initQuoteCarousel();
+      initCountdowns();
+      initTiltCards();
+      initSwipeGestures();
+    });
+
+    // Nav
+    function initNav() {
+      const burger = document.getElementById('burgerBtn');
+      const nav = document.getElementById('mobileNav');
+      burger.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        burger.setAttribute('aria-expanded', open);
+        nav.setAttribute('aria-hidden', !open);
+        SOUNDS.click();
+      });
+    }
+    function initSoundToggle() {
+      const btn = document.getElementById('soundToggle');
+      let on = true;
+      btn.addEventListener('click', () => {
+        on = SOUNDS.toggle();
+        btn.textContent = on ? '🔊' : '🔇';
+      });
+    }
+
+    // Daily content
+    function initDailyContent() {
+      const q = ENGINE.getDailyQuote();
+      document.getElementById('qotdText').textContent = q.text;
+      document.getElementById('qotdMeta').textContent = q.category.replace(/-/g,' ').toUpperCase() + ' · QUOTE OF THE DAY';
+
+      const qod = ENGINE.getDailyQuestion();
+      document.getElementById('qEmoji').textContent = qod.emoji;
+      document.getElementById('qText').textContent = qod.q;
+      document.getElementById('qCategory').textContent = qod.category;
+    }
+
+    window.copyQotd = function() {
+      navigator.clipboard.writeText(document.getElementById('qotdText').textContent)
+        .then(() => showToast('📋 Quote copied!'))
+        .catch(() => showToast('Select and copy manually'));
+    };
+
+    // RF Carousel
+    let rfCards = [], rfIdx = 0, rfRevealed = false, rfFilter = 'all';
+
+    function initRFCarousel() {
+      rfCards = ENGINE.getShuffledRapidFire();
+      renderRFCards();
+    }
+
+    function renderRFCards() {
+      const filtered = rfFilter === 'all' ? rfCards : rfCards.filter(c => c.category === rfFilter);
+      const track = document.getElementById('rfTrack');
+      if (filtered.length === 0) {
+        track.innerHTML = `<div class="carousel-slide"><div class="rf-card-front" style="text-align:center">
+          <div style="font-size:48px">🤔</div>
+          <p class="rf-q" style="margin-top:16px">No cards in this category yet</p>
+        </div></div>`;
+        document.getElementById('rfCounter').textContent = '0 / 0';
+        return;
+      }
+      rfIdx = Math.min(rfIdx, filtered.length - 1);
+      track.innerHTML = filtered.map((card, i) => `
+        <div class="carousel-slide">
+          <div class="flip-container" id="flipC${i}" onclick="toggleFlip(${i})" style="height:360px;cursor:pointer">
+            <div class="flip-card-inner" id="flipI${i}">
+              <div class="flip-card-front" style="background:var(--surface);padding:32px;display:flex;flex-direction:column;justify-content:center;position:relative">
+                <div class="rf-category">${card.category}</div>
+                <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text3);margin-bottom:16px">TAP TO REVEAL · CARD ${i+1} OF ${filtered.length}</div>
+                <p class="rf-q">${card.q}</p>
+                <p style="font-size:13px;color:var(--text3);margin-top:12px;font-style:italic">💡 ${card.hint}</p>
+                <div style="margin-top:24px;font-size:13px;color:var(--text3);font-weight:600">👆 Tap to flip</div>
+              </div>
+              <div class="flip-card-back" style="padding:32px;display:flex;flex-direction:column;justify-content:center">
+                <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(248,248,245,0.4);margin-bottom:16px">ANSWER</div>
+                <p class="rf-a">${card.a}</p>
+                <p style="font-size:14px;color:rgba(248,248,245,0.6);margin-top:16px;font-style:italic">💡 ${card.hint}</p>
+                <div style="margin-top:24px;font-size:13px;color:rgba(248,248,245,0.4);font-weight:600">👆 Tap to flip back</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      updateRFCounter(filtered.length);
+      goToRFSlide(rfIdx);
+    }
+
+    function toggleFlip(idx) {
+      SOUNDS.flip();
+      document.getElementById(`flipI${idx}`).parentElement.classList.toggle('flipped');
+    }
+
+    function rfCarousel(dir) {
+      SOUNDS.swipe();
+      const filtered = rfFilter === 'all' ? rfCards : rfCards.filter(c => c.category === rfFilter);
+      rfIdx = Math.max(0, Math.min(rfIdx + dir, filtered.length - 1));
+      goToRFSlide(rfIdx);
+      updateRFCounter(filtered.length);
+    }
+
+    function goToRFSlide(i) {
+      const track = document.getElementById('rfTrack');
+      track.style.transform = `translateX(-${i * 100}%)`;
+    }
+
+    function updateRFCounter(total) {
+      document.getElementById('rfCounter').textContent = `${rfIdx + 1} / ${total}`;
+      document.getElementById('rfPrev').disabled = rfIdx === 0;
+      document.getElementById('rfNext').disabled = rfIdx >= total - 1;
+    }
+
+    window.filterRF = function(cat, btn) {
+      rfFilter = cat;
+      rfIdx = 0;
+      document.querySelectorAll('#rfTabs .tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      SOUNDS.click();
+      renderRFCards();
+    };
+
+    // Quote carousel
+    let quoteIdx = 0, quoteItems = [];
+
+    function initQuoteCarousel() {
+      quoteItems = ENGINE.getTickerQuotes().slice(0, 12);
+      const track = document.getElementById('quoteCarouselTrack');
+      track.innerHTML = quoteItems.map((q, i) => `
+        <div class="carousel-slide">
+          <div class="quote-card" style="border-radius:var(--r-xl);min-height:220px;cursor:pointer"
+               onclick="SOUNDS.copy();copyText('${q.text.replace(/'/g,"\\'")}')">
+            <span class="quote-marks" style="font-size:60px">"</span>
+            <p class="quote-text">${q.text}</p>
+            <div class="quote-meta mt-16">${q.category.replace(/-/g,' ').toUpperCase()} · Click to copy</div>
+          </div>
+        </div>
+      `).join('');
+      document.getElementById('quoteCounter').textContent = `1 / ${quoteItems.length}`;
+    }
+
+    window.quoteCarousel = function(dir) {
+      SOUNDS.swipe();
+      quoteIdx = Math.max(0, Math.min(quoteIdx + dir, quoteItems.length - 1));
+      document.getElementById('quoteCarouselTrack').style.transform = `translateX(-${quoteIdx * 100}%)`;
+      document.getElementById('quoteCounter').textContent = `${quoteIdx + 1} / ${quoteItems.length}`;
+    };
+
+    window.copyText = function(t) {
+      navigator.clipboard.writeText(t).then(() => showToast('📋 Copied!'));
+    };
+
+    // Countdowns
+    function initCountdowns() {
+      function update() {
+        document.getElementById('countdownTimer').textContent = ENGINE.formatCountdown(ENGINE.msToMidnight());
+        const mh = ENGINE.msToNextHour();
+        const m = Math.floor(mh / 60000);
+        const s = Math.floor((mh % 60000) / 1000);
+        document.getElementById('hourTimer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      }
+      update();
+      setInterval(update, 1000);
+    }
+
+    // Tilt
+    function initTiltCards() {
+      document.querySelectorAll('.tilt').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const r = card.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = `perspective(800px) rotateX(${-y*6}deg) rotateY(${x*6}deg)`;
+        });
+        card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+      });
+    }
+
+    // Swipe gestures
+    function initSwipeGestures() {
+      let startX = 0;
+      const outer = document.getElementById('rfTrackOuter');
+      outer.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      outer.addEventListener('touchend', e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) rfCarousel(diff > 0 ? 1 : -1);
+      });
+    }
+
+    // Toast
+    window.showToast = function(msg) {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      const t = document.createElement('div');
+      t.className = 'toast'; t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => { t.classList.add('toast-out'); setTimeout(() => t.remove(), 300); }, 3000);
+    };
+  </script>
+</body>
+</html>
