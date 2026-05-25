@@ -119,7 +119,7 @@
   </div>
 
   <nav class="nav">
-    <a href="../index.html" class="nav-logo"><span class="nav-logo-dot"></span>COMEDY PLAYBOOK</a>
+    <a href="../index.html" class="nav-logo"><span class="nav-logo-dot"></span><span class="logo-full">COMEDY PLAYBOOK</span><span class="logo-short">CP</span></a>
     <div class="nav-links">
       <a href="../index.html" class="nav-link">Home</a>
       <a href="daily.html" class="nav-link">Daily Drop</a>
@@ -277,6 +277,7 @@
   <script src="../js/data.js"></script>
   <script src="../js/engine.js"></script>
   <script src="../js/sounds.js"></script>
+  <script src="../js/nav.js"></script>
   <script>
     const cbCarousels = {};
 
@@ -294,16 +295,6 @@
       initSwipe();
     });
 
-    function initNav() {
-      const burger = document.getElementById('burgerBtn');
-      const nav = document.getElementById('mobileNav');
-      burger.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        burger.setAttribute('aria-expanded', open);
-        nav.setAttribute('aria-hidden', !open);
-        SOUNDS.click();
-      });
-    }
     function initSoundToggle() {
       const btn = document.getElementById('soundToggle');
       let on = true;

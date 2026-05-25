@@ -21,7 +21,8 @@
   <nav class="nav" role="navigation" aria-label="Main navigation">
     <a href="index.html" class="nav-logo">
       <span class="nav-logo-dot"></span>
-      COMEDY PLAYBOOK
+      <span class="logo-full">COMEDY PLAYBOOK</span>
+      <span class="logo-short">CP</span>
     </a>
     <div class="nav-links">
       <a href="index.html" class="nav-link active">Home</a>
@@ -246,6 +247,7 @@
   <script src="js/data.js"></script>
   <script src="js/engine.js"></script>
   <script src="js/sounds.js"></script>
+  <script src="js/nav.js"></script>
   <script>
     // ── Init ──────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', () => {
@@ -260,18 +262,6 @@
       initTiltCards();
       initSoundToggle();
     });
-
-    // ── Nav ───────────────────────────────────────────────
-    function initNav() {
-      const burger = document.getElementById('burgerBtn');
-      const nav = document.getElementById('mobileNav');
-      burger.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        burger.setAttribute('aria-expanded', open);
-        nav.setAttribute('aria-hidden', !open);
-        SOUNDS.click();
-      });
-    }
 
     // ── Sound toggle ──────────────────────────────────────
     function initSoundToggle() {
